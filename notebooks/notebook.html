@@ -1,0 +1,953 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Analyse van weersverschijnselen en verkeersongelukken in de VS &#8212; Jupyter Book Template</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=3ee479438cf8b5e0d341" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=3ee479438cf8b5e0d341"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/notebook';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../docs/home.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Jupyter Book Template</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../docs/home.html">
+                    Jupyter Book Tutorial
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../docs/notebook.html">Example Notebook</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/Knoerdin/web_info_vis/blob/main/notebooks/notebooks/notebook.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/Knoerdin/web_info_vis" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/Knoerdin/web_info_vis/issues/new?title=Issue%20on%20page%20%2Fnotebooks/notebook.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/notebook.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Analyse van weersverschijnselen en verkeersongelukken in de VS</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset-and-preprocessing">Dataset and Preprocessing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-first-perspective">The First Perspective</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#accidents-per-day">Accidents per day</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#number-of-accidents-and-weather-scores">Number of accidents and Weather scores</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#effect-of-freezing">Effect of freezing</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-second-perspective">The Second Perspective</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#surrounding-conditions">Surrounding conditions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-drivers">The Drivers</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reflection">Reflection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="analyse-van-weersverschijnselen-en-verkeersongelukken-in-de-vs">
+<h1>Analyse van weersverschijnselen en verkeersongelukken in de VS<a class="headerlink" href="#analyse-van-weersverschijnselen-en-verkeersongelukken-in-de-vs" title="Link to this heading">#</a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
+<p>City planners, civil engineers and car manufacturers have worked tirelessly for decades to make driving a safe, comfortable and accessible option for travel. Safer roads, smarter rules and cutting edge technologies have been implement to reduce the frequency of accidents with motor vehicles, to great success as accidents on the road have dropped tremendously since the 1960s (<a class="reference external" href="https://www.iihs.org/topics/fatality-statistics/detail/yearly-snapshot">https://www.iihs.org/topics/fatality-statistics/detail/yearly-snapshot</a>) . Aside from individuals with poor driving skills and faulty vehicles, one of the greatest hindrances in motor safety has been the chaotic essence of mother nature. In the US, forty-two thousand people have died in 2022.</p>
+<p>Some would argue that weather is primarily responsible for the amount of motor vehicle accidents. Weather phenomena such as hurricanes, heavy rain, icy roads and thick fog are able to severely debilitate a person’s driving skills and could pose a threat to their own safety, and that of other drivers around them. Others state that the weather is merely a small issue, and that accidents have many more causes other than weather. They argue that factors such as inexperienced drivers, unmaintained roads or sloppy city planning cause just as much, if not more accidents on the road.</p>
+<p>We set out to research the correlation between weather and accidents in the US. To achieve this we took a look at two datasets, these being ‘US Accidents (2016 - 2023)’, and ‘Historical Hourly Weather Data 2012-2017’. ‘US Accidents (2016 - 2023)’ is a detailed record of vehicle accidents in the US between 2016 and 2023, having recorded the time, place and severity of accidents, among many other variables. ‘Historical Hourly Weather Data 2012-2017’ is a record of weather across the US between the years 2012 and 2017. This dataset has recorded the hourly weather status of many large cities across the United States. With these two datasets we can analyze and compare the link between heavy weather and car accidents across the US.</p>
+</section>
+<section id="dataset-and-preprocessing">
+<h2>Dataset and Preprocessing<a class="headerlink" href="#dataset-and-preprocessing" title="Link to this heading">#</a></h2>
+<p>The first dataset used in this data story is the dataset US Accidents (2016-2023), found on Kaggle. This dataset contains all traffic accidents in America from Febuary 2016 to March 2023. These datapoints are all collected with the help of multiple API’s that record traffic accidents and reports them. These API’s send out various traffic details which are captured by various entities, such as US and state departments of transportation, law enforcement agencies, traffic cameras, and traffic sensors within the road networks. This dataset contains 7728394 records and 46 different variables. It contains variables on where the accidents took place, when they took place, if any infrastructure was nearby and the severity of the accident. <br>
+For this data story only the USA will be researched, so for this dataset we removed all states and cities that were not in the USA. As for the variables, all variables that were not used such as ID, Source, Timezone and so on. To find overlap between the this database and the database mentioned in the next paragraph, only the years 2016 and 2017 were used as these are the overlapping years between the databases.</p>
+<p>The second dataset used in this data story is Historical Hourly Weather Data 2012-2017, also found on Kaggle. It contains the data of the weather in various US states as well as some canadian and israeli cities. The records are measured by the hour and records variables such as temparature, humidity, air pressure and wind speed. There are roughly 45300 records in the database.
+The only country that will be researched is the US, so all the records of the other countries have been removed from the database. The variables of the database are all in a different csv file which made it more difficult to find correlation between the databases. To overcome this obstacle all the csv files were melted and filtered on year, after the filtering the database was merged to one csv file.</p>
+</section>
+<section id="the-first-perspective">
+<h2>The First Perspective<a class="headerlink" href="#the-first-perspective" title="Link to this heading">#</a></h2>
+<p>Driving through heavy rain or severe weather conditions can be disoriëntating and can lead to dangerous situations. This is why weather has a lot of influence on the frequency of accidents. Freezing temperatures and bad weather are a dangere to traffic. Cities with severe weather are more prone to traffic accidents than cities with less severe weather. To combat this issue, more precautions should be taken to prevent accidents caused by weather.</p>
+<section id="accidents-per-day">
+<h3>Accidents per day<a class="headerlink" href="#accidents-per-day" title="Link to this heading">#</a></h3>
+<p>In the following graph you can see the amount of accidents per day. It is notable to see that there is a significant increase in accidents during workdays. When zooming in there is a noticable pattern with 5 days of more accidents followed by two days(weekend) of less accidents. It is also noteworthy that there is a slight increase in traffic accidents around January and October. This could be because of freezing and holidays respectively. This is worth a further investigation and this will be discussed later on.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">plotly.express</span> <span class="k">as</span> <span class="nn">px</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">accidents</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../resources/us_accidents.csv&#39;</span><span class="p">)</span>
+
+<span class="n">accidents</span><span class="p">[</span><span class="s1">&#39;Start_Time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">accidents</span><span class="p">[</span><span class="s1">&#39;Start_Time&#39;</span><span class="p">])</span>
+<span class="n">date_counts</span> <span class="o">=</span> <span class="n">accidents</span><span class="p">[</span><span class="s1">&#39;Start_Time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+
+<span class="c1"># Create a bar chart with Plotly</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">date_counts</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">date_counts</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+    <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="s1">&#39;Date&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="s1">&#39;Number of Accidents&#39;</span><span class="p">},</span>
+    <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Number of Accidents per Day&#39;</span><span class="p">,</span>
+    <span class="n">color_discrete_sequence</span><span class="o">=</span> <span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="c1"># Update the layout to improve appearance</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+    <span class="n">xaxis_title</span><span class="o">=</span><span class="s1">&#39;Date&#39;</span><span class="p">,</span>
+    <span class="n">yaxis_title</span><span class="o">=</span><span class="s1">&#39;Number of Accidents&#39;</span><span class="p">,</span>
+    <span class="n">xaxis_tickangle</span><span class="o">=-</span><span class="mi">90</span>
+<span class="p">)</span>
+
+<span class="c1"># Show the plot</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">import</span> <span class="nn">plotly.express</span> <span class="k">as</span> <span class="nn">px</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="ne">----&gt; </span><span class="mi">3</span> <span class="n">accidents</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../resources/us_accidents.csv&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">accidents</span><span class="p">[</span><span class="s1">&#39;Start_Time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">accidents</span><span class="p">[</span><span class="s1">&#39;Start_Time&#39;</span><span class="p">])</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="n">date_counts</span> <span class="o">=</span> <span class="n">accidents</span><span class="p">[</span><span class="s1">&#39;Start_Time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+
+<span class="nn">File ~/opt/anaconda3/envs/jupyterbook/lib/python3.10/site-packages/pandas/io/parsers/readers.py:1026,</span> in <span class="ni">read_csv</span><span class="nt">(filepath_or_buffer, sep, delimiter, header, names, index_col, usecols, dtype, engine, converters, true_values, false_values, skipinitialspace, skiprows, skipfooter, nrows, na_values, keep_default_na, na_filter, verbose, skip_blank_lines, parse_dates, infer_datetime_format, keep_date_col, date_parser, date_format, dayfirst, cache_dates, iterator, chunksize, compression, thousands, decimal, lineterminator, quotechar, quoting, doublequote, escapechar, comment, encoding, encoding_errors, dialect, on_bad_lines, delim_whitespace, low_memory, memory_map, float_precision, storage_options, dtype_backend)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1013</span> <span class="n">kwds_defaults</span> <span class="o">=</span> <span class="n">_refine_defaults_read</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1014</span>     <span class="n">dialect</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1015</span>     <span class="n">delimiter</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1022</span>     <span class="n">dtype_backend</span><span class="o">=</span><span class="n">dtype_backend</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1023</span> <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1024</span> <span class="n">kwds</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwds_defaults</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">1026</span> <span class="k">return</span> <span class="n">_read</span><span class="p">(</span><span class="n">filepath_or_buffer</span><span class="p">,</span> <span class="n">kwds</span><span class="p">)</span>
+
+<span class="nn">File ~/opt/anaconda3/envs/jupyterbook/lib/python3.10/site-packages/pandas/io/parsers/readers.py:620,</span> in <span class="ni">_read</span><span class="nt">(filepath_or_buffer, kwds)</span>
+<span class="g g-Whitespace">    </span><span class="mi">617</span> <span class="n">_validate_names</span><span class="p">(</span><span class="n">kwds</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;names&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+<span class="g g-Whitespace">    </span><span class="mi">619</span> <span class="c1"># Create the parser.</span>
+<span class="ne">--&gt; </span><span class="mi">620</span> <span class="n">parser</span> <span class="o">=</span> <span class="n">TextFileReader</span><span class="p">(</span><span class="n">filepath_or_buffer</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">622</span> <span class="k">if</span> <span class="n">chunksize</span> <span class="ow">or</span> <span class="n">iterator</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">623</span>     <span class="k">return</span> <span class="n">parser</span>
+
+<span class="nn">File ~/opt/anaconda3/envs/jupyterbook/lib/python3.10/site-packages/pandas/io/parsers/readers.py:1620,</span> in <span class="ni">TextFileReader.__init__</span><span class="nt">(self, f, engine, **kwds)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1617</span>     <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;has_index_names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwds</span><span class="p">[</span><span class="s2">&quot;has_index_names&quot;</span><span class="p">]</span>
+<span class="g g-Whitespace">   </span><span class="mi">1619</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span><span class="p">:</span> <span class="n">IOHandles</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="ne">-&gt; </span><span class="mi">1620</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_engine</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">)</span>
+
+<span class="nn">File ~/opt/anaconda3/envs/jupyterbook/lib/python3.10/site-packages/pandas/io/parsers/readers.py:1880,</span> in <span class="ni">TextFileReader._make_engine</span><span class="nt">(self, f, engine)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1878</span>     <span class="k">if</span> <span class="s2">&quot;b&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">mode</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1879</span>         <span class="n">mode</span> <span class="o">+=</span> <span class="s2">&quot;b&quot;</span>
+<span class="ne">-&gt; </span><span class="mi">1880</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span> <span class="o">=</span> <span class="n">get_handle</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1881</span>     <span class="n">f</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1882</span>     <span class="n">mode</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1883</span>     <span class="n">encoding</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;encoding&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1884</span>     <span class="n">compression</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;compression&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1885</span>     <span class="n">memory_map</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;memory_map&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1886</span>     <span class="n">is_text</span><span class="o">=</span><span class="n">is_text</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1887</span>     <span class="n">errors</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;encoding_errors&quot;</span><span class="p">,</span> <span class="s2">&quot;strict&quot;</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1888</span>     <span class="n">storage_options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;storage_options&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1889</span> <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1890</span> <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+<span class="g g-Whitespace">   </span><span class="mi">1891</span> <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span><span class="o">.</span><span class="n">handle</span>
+
+<span class="nn">File ~/opt/anaconda3/envs/jupyterbook/lib/python3.10/site-packages/pandas/io/common.py:873,</span> in <span class="ni">get_handle</span><span class="nt">(path_or_buf, mode, encoding, compression, memory_map, is_text, errors, storage_options)</span>
+<span class="g g-Whitespace">    </span><span class="mi">868</span> <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">869</span>     <span class="c1"># Check whether the filename is to be opened in binary mode.</span>
+<span class="g g-Whitespace">    </span><span class="mi">870</span>     <span class="c1"># Binary mode does not support &#39;encoding&#39; and &#39;newline&#39;.</span>
+<span class="g g-Whitespace">    </span><span class="mi">871</span>     <span class="k">if</span> <span class="n">ioargs</span><span class="o">.</span><span class="n">encoding</span> <span class="ow">and</span> <span class="s2">&quot;b&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ioargs</span><span class="o">.</span><span class="n">mode</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">872</span>         <span class="c1"># Encoding</span>
+<span class="ne">--&gt; </span><span class="mi">873</span>         <span class="n">handle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">874</span>             <span class="n">handle</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">875</span>             <span class="n">ioargs</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">876</span>             <span class="n">encoding</span><span class="o">=</span><span class="n">ioargs</span><span class="o">.</span><span class="n">encoding</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">877</span>             <span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">878</span>             <span class="n">newline</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">879</span>         <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">880</span>     <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">881</span>         <span class="c1"># Binary mode</span>
+<span class="g g-Whitespace">    </span><span class="mi">882</span>         <span class="n">handle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="n">ioargs</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span>
+
+<span class="ne">FileNotFoundError</span>: [Errno 2] No such file or directory: &#39;../resources/us_accidents.csv&#39;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="number-of-accidents-and-weather-scores">
+<h3>Number of accidents and Weather scores<a class="headerlink" href="#number-of-accidents-and-weather-scores" title="Link to this heading">#</a></h3>
+<p>The two Bubble Maps are meant to put the correlation between our weather-score, and the amount of accidents in a city, into perspective. In the final version we want to make this 1 big plot instead of two smaller ones, but we ran out of time. We will also look into other variables that might have an effect on the er of accidents(like the total amount of roads in an area).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># from matplotlib import scale</span>
+<span class="c1"># import pandas as pd</span>
+<span class="c1"># import plotly.graph_objects as go</span>
+
+<span class="c1"># df = pd.read_csv(&#39;../resources/BubbleMapData.csv&#39;)</span>
+<span class="c1"># groottes = [(0, 5), (5, 50), (50, 500), (500, 5000), (5000, 500000)]</span>
+<span class="c1"># colors = [&quot;Black&quot;, &quot;Yellow&quot;, &quot;Red&quot;, &quot;Green&quot;, &quot;Blue&quot;]</span>
+
+<span class="c1"># scale = 0.01</span>
+
+<span class="c1"># fig = go.Figure()</span>
+
+<span class="c1"># for i in range(len(groottes)):</span>
+<span class="c1">#     lim = groottes[i]</span>
+<span class="c1">#     df_sub = df[(df[&#39;ongelukken&#39;] &gt;= lim[0]) &amp; (df[&#39;ongelukken&#39;] &lt; lim[1])]</span>
+<span class="c1">#     fig.add_trace(go.Scattergeo(</span>
+<span class="c1">#         locationmode=&#39;USA-states&#39;,</span>
+<span class="c1">#         lon=df_sub[&#39;lng&#39;],</span>
+<span class="c1">#         lat=df_sub[&#39;lat&#39;],</span>
+<span class="c1">#         text=df_sub[&#39;City&#39;] + &#39;: &#39; + df_sub[&#39;ongelukken&#39;].astype(str) + &#39; ongelukken&#39;,</span>
+<span class="c1">#         mode=&#39;markers&#39;,</span>
+<span class="c1">#         marker=dict(</span>
+<span class="c1">#             size=df_sub[&#39;ongelukken&#39;] * scale,</span>
+<span class="c1">#             color=colors[i],</span>
+<span class="c1">#             line_color=&#39;rgb(40,40,40)&#39;,</span>
+<span class="c1">#             line_width=0.5,</span>
+<span class="c1">#             sizemode=&#39;area&#39;</span>
+<span class="c1">#         ),</span>
+<span class="c1">#         name=f&#39;{lim[0]} - {lim[1]} accidents&#39;</span>
+<span class="c1">#     ))</span>
+
+<span class="c1"># fig.update_layout(</span>
+<span class="c1">#     title_text=&#39;Number of accidents in the VS for each city&#39;,</span>
+<span class="c1">#     showlegend=True,</span>
+<span class="c1">#     geo=dict(</span>
+<span class="c1">#         scope=&#39;usa&#39;,</span>
+<span class="c1">#         landcolor=&#39;rgb(217, 217, 217)&#39;,</span>
+<span class="c1">#     )</span>
+<span class="c1"># )</span>
+
+<span class="c1"># fig.show()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># from matplotlib import scale</span>
+<span class="c1"># import pandas as pd</span>
+<span class="c1"># import plotly.express as px</span>
+<span class="c1"># import plotly.graph_objects as go</span>
+
+<span class="c1"># df = pd.read_csv(&#39;../resources/dataset_weather/WeatherBubbleData.csv&#39;)</span>
+
+<span class="c1"># grootte = [(0,0.30),(0.30,0.35),(0.35,0.40),(0.40,0.45),(0.45,0.50),(0.50,1)]</span>
+<span class="c1"># color_scale = px.colors.diverging.Tealrose</span>
+
+<span class="c1"># def assign_size(score):</span>
+<span class="c1">#     for i, (min_range, max_range) in enumerate(grootte):</span>
+<span class="c1">#         if min_range &lt;= score &lt; max_range:</span>
+<span class="c1">#             return (i + 1) * 5 </span>
+<span class="c1">#     return 5 </span>
+
+
+<span class="c1"># hover_text = []</span>
+<span class="c1"># for index, row in df.iterrows():</span>
+<span class="c1">#     hover_text.append(f&quot;City: {row[&#39;city&#39;]}&lt;br&gt;Score: {row[&#39;score&#39;]}&quot;)</span>
+
+
+<span class="c1"># fig = go.Figure()</span>
+
+<span class="c1"># fig.add_trace(go.Scattergeo(</span>
+<span class="c1">#     locationmode=&#39;USA-states&#39;,</span>
+<span class="c1">#     lon=df[&#39;lng&#39;],</span>
+<span class="c1">#     lat=df[&#39;lat&#39;],</span>
+<span class="c1">#     mode=&#39;markers&#39;,</span>
+<span class="c1">#     marker=dict(</span>
+<span class="c1">#         size=[assign_size(score) for score in df[&#39;score&#39;]],</span>
+<span class="c1">#         color=df[&#39;score&#39;],</span>
+<span class="c1">#         colorscale=color_scale,  </span>
+<span class="c1">#         colorbar=dict(title=&#39;Weather Score&#39;),  </span>
+<span class="c1">#         line_color=&#39;rgb(40, 40, 40)&#39;,</span>
+<span class="c1">#         line_width=0.5,</span>
+<span class="c1">#         sizemode=&#39;diameter&#39;, </span>
+<span class="c1">#         opacity=0.8</span>
+<span class="c1">#     ),</span>
+<span class="c1">#     text=hover_text,  </span>
+<span class="c1">#     hoverinfo=&#39;text&#39;,  </span>
+<span class="c1"># ))</span>
+
+<span class="c1"># fig.update_layout(</span>
+<span class="c1">#     title=&#39;Weather scores for the big American cities&#39;,</span>
+<span class="c1">#     geo=dict(</span>
+<span class="c1">#         scope=&#39;usa&#39;,</span>
+<span class="c1">#         landcolor=&#39;rgb(217, 217, 217)&#39;,</span>
+<span class="c1">#     )</span>
+<span class="c1"># )</span>
+
+
+<span class="c1"># fig.show()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="effect-of-freezing">
+<h3>Effect of freezing<a class="headerlink" href="#effect-of-freezing" title="Link to this heading">#</a></h3>
+<p>When analysing this graph, some noticable features are the amount of accidents per datapoint rather than it being spread out evenly. This is because the only datapoints in the graphed dataset are days with freezing temperatures the datapoints are only of one state so the data is lower than graph beforementioned graph with all cities combined.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">temp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../resources/dataset_weather/us_temperature.csv&#39;</span><span class="p">)</span>
+<span class="n">accidents</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../resources/us_accidents.csv&#39;</span><span class="p">)</span>
+<span class="n">melted_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span> <span class="n">id_vars</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">],</span> <span class="n">var_name</span><span class="o">=</span><span class="s1">&#39;State&#39;</span><span class="p">,</span> <span class="n">value_name</span><span class="o">=</span><span class="s1">&#39;Temperature&#39;</span><span class="p">)</span>
+
+<span class="n">melted_df</span> <span class="o">=</span> <span class="n">melted_df</span><span class="p">[</span><span class="n">melted_df</span><span class="p">[</span><span class="s1">&#39;Temperature&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">270</span><span class="p">]</span>
+<span class="n">melted_df</span><span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">melted_df</span><span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">date</span>
+<span class="n">accidents</span><span class="p">[</span><span class="s1">&#39;Start_Time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">accidents</span><span class="p">[</span><span class="s1">&#39;Start_Time&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">date</span>
+
+<span class="n">merged_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">melted_df</span><span class="p">,</span> <span class="n">accidents</span><span class="p">,</span><span class="n">left_on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">,</span> <span class="s1">&#39;State&#39;</span><span class="p">],</span> <span class="n">right_on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Start_Time&#39;</span><span class="p">,</span> <span class="s1">&#39;City&#39;</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;inner&#39;</span><span class="p">)</span>
+
+<span class="n">date_counts</span> <span class="o">=</span> <span class="n">merged_data</span><span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+
+<span class="c1"># Create a bar chart with Plotly</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">date_counts</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">date_counts</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+    <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="s1">&#39;Date&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="s1">&#39;Number of Accidents&#39;</span><span class="p">},</span>
+    <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Number of Accidents per Day when Freezing&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Update the layout to improve appearance</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+    <span class="n">xaxis_title</span><span class="o">=</span><span class="s1">&#39;Date&#39;</span><span class="p">,</span>
+    <span class="n">yaxis_title</span><span class="o">=</span><span class="s1">&#39;Number of Accidents&#39;</span><span class="p">,</span>
+    <span class="n">xaxis_tickangle</span><span class="o">=-</span><span class="mi">90</span>
+<span class="p">)</span>
+
+<span class="c1"># Show the plot</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/5r/4dlwcpf56d76tctrcxgmk99w0000gn/T/ipykernel_61382/585873166.py:6: UserWarning:
+
+Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="the-second-perspective">
+<h2>The Second Perspective<a class="headerlink" href="#the-second-perspective" title="Link to this heading">#</a></h2>
+<p>Accidents are not the cause of the weather, but rather the causes of other factors such as the city, the state and the road condition. Weather can contribute, but is a minor factor as most vehicles are built to withstand most weather events. Urban infrastructure, regional traffic laws, and maintenance of roadways play significant roles in accident occurrence. Therefore, addressing these factors is crucial for improving road safety and reducing accidents.</p>
+<section id="surrounding-conditions">
+<h3>Surrounding conditions<a class="headerlink" href="#surrounding-conditions" title="Link to this heading">#</a></h3>
+<p>In the following graph you can see that most accidents take place with no relevant infrastructure such as traffic stops or traffic lighs nearby. It is however notable that aside from the no infrastructure, most accidents take place at junctions or traffic_signs. These are also the places that are most susceptible to human error. We can conclude from this graph that the place where the traffic accident takes place is relevant to the cause of the accidents.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">plotly.express</span> <span class="k">as</span> <span class="nn">px</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../resources/us_accidents_filtered_rows.csv&#39;</span><span class="p">)</span>
+
+<span class="n">infrastructures</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Amenity&#39;</span><span class="p">,</span> <span class="s1">&#39;Bump&#39;</span><span class="p">,</span> <span class="s1">&#39;Crossing&#39;</span><span class="p">,</span> <span class="s1">&#39;Give_Way&#39;</span><span class="p">,</span> <span class="s1">&#39;Junction&#39;</span><span class="p">,</span> <span class="s1">&#39;No_Exit&#39;</span><span class="p">,</span> 
+                   <span class="s1">&#39;Railway&#39;</span><span class="p">,</span> <span class="s1">&#39;Roundabout&#39;</span><span class="p">,</span> <span class="s1">&#39;Station&#39;</span><span class="p">,</span> <span class="s1">&#39;Stop&#39;</span><span class="p">,</span> <span class="s1">&#39;Traffic_Calming&#39;</span><span class="p">,</span> 
+                   <span class="s1">&#39;Traffic_Signal&#39;</span><span class="p">,</span> <span class="s1">&#39;Turning_Loop&#39;</span><span class="p">]</span>
+
+<span class="c1"># Check if all infrastructure columns are False for each row</span>
+<span class="k">def</span> <span class="nf">all_false</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="ow">not</span> <span class="n">row</span><span class="p">[</span><span class="n">infra</span><span class="p">]</span> <span class="k">for</span> <span class="n">infra</span> <span class="ow">in</span> <span class="n">infrastructures</span><span class="p">)</span>
+
+<span class="c1"># Apply the function row-wise to create a boolean mask</span>
+<span class="n">all_false_mask</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">all_false</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Count rows where all infrastructure columns are False</span>
+<span class="n">no_infrastructure_count</span> <span class="o">=</span> <span class="n">all_false_mask</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="c1"># Count occurrences of True values for each infrastructure type</span>
+<span class="n">counts</span> <span class="o">=</span> <span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="n">infra</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="k">for</span> <span class="n">infra</span> <span class="ow">in</span> <span class="n">infrastructures</span><span class="p">]</span>
+
+<span class="c1"># If there are rows with all False values, add a category for &quot;No Infrastructure Near Accidents&quot;</span>
+<span class="k">if</span> <span class="n">no_infrastructure_count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">infrastructures</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;No Infrastructure&#39;</span><span class="p">)</span>
+    <span class="n">counts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">no_infrastructure_count</span><span class="p">)</span>
+
+<span class="c1"># Create lists for labels and values</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">infrastructures</span>
+<span class="n">values</span> <span class="o">=</span> <span class="n">counts</span>
+
+<span class="c1"># Calculate total number of accidents</span>
+<span class="n">total_accidents</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+
+<span class="c1"># Calculate percentages</span>
+<span class="n">percentages</span> <span class="o">=</span> <span class="p">[</span><span class="n">count</span> <span class="o">/</span> <span class="n">total_accidents</span> <span class="o">*</span> <span class="mi">100</span> <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">counts</span><span class="p">]</span>
+
+<span class="n">threshold</span> <span class="o">=</span> <span class="mf">1.3</span>
+<span class="n">combined_labels</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">combined_values</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">percent</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">percentages</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">percent</span> <span class="o">&lt;</span> <span class="n">threshold</span><span class="p">:</span>
+        <span class="n">combined_labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Other&#39;</span><span class="p">)</span>
+        <span class="n">combined_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">combined_labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+        <span class="n">combined_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">pie</span><span class="p">(</span><span class="n">names</span><span class="o">=</span><span class="n">combined_labels</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">combined_values</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Distribution of Traffic Accidents by Infrastructure Proximity&#39;</span><span class="p">,</span>
+             <span class="n">hole</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+             <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;percent&#39;</span><span class="p">},</span>
+             <span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+
+
+<span class="n">fig</span><span class="o">.</span><span class="n">update_traces</span><span class="p">(</span><span class="n">textposition</span><span class="o">=</span><span class="s1">&#39;outside&#39;</span><span class="p">,</span> <span class="n">textinfo</span><span class="o">=</span><span class="s1">&#39;label+percent&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">showlegend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</section>
+<section id="the-drivers">
+<h3>The Drivers<a class="headerlink" href="#the-drivers" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_violations</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../resources/traffic_violations_filtered.csv&#39;</span><span class="p">)</span>
+<span class="n">df_accidents</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../resources/us_accidents.csv&#39;</span><span class="p">)</span>
+
+<span class="c1"># Convert the date columns to datetime</span>
+<span class="n">df_accidents</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df_accidents</span><span class="p">[</span><span class="s1">&#39;Start_Time&#39;</span><span class="p">])</span>
+<span class="n">df_violations</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df_violations</span><span class="p">[</span><span class="s1">&#39;Date Of Stop&#39;</span><span class="p">])</span>
+
+<span class="c1"># Extract year and month, and aggregate by month</span>
+<span class="n">df_accidents</span><span class="p">[</span><span class="s1">&#39;month&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_accidents</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">to_period</span><span class="p">(</span><span class="s1">&#39;M&#39;</span><span class="p">)</span>
+<span class="n">df_violations</span><span class="p">[</span><span class="s1">&#39;month&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_violations</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">to_period</span><span class="p">(</span><span class="s1">&#39;M&#39;</span><span class="p">)</span>
+
+<span class="n">accidents_per_month</span> <span class="o">=</span> <span class="n">df_accidents</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;month&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;traffic accidents&#39;</span><span class="p">)</span>
+<span class="n">violations_per_month</span> <span class="o">=</span> <span class="n">df_violations</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;month&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;traffic violations&#39;</span><span class="p">)</span>
+
+<span class="c1"># Merge the aggregated data on the month</span>
+<span class="n">df_merged</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">accidents_per_month</span><span class="p">,</span> <span class="n">violations_per_month</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;month&#39;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;outer&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Convert &#39;month&#39; back to string for plotting</span>
+<span class="n">df_merged</span><span class="p">[</span><span class="s1">&#39;month&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_merged</span><span class="p">[</span><span class="s1">&#39;month&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+
+<span class="c1"># Melt the dataframe for Plotly Express</span>
+<span class="n">df_melted</span> <span class="o">=</span> <span class="n">df_merged</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">id_vars</span><span class="o">=</span><span class="s1">&#39;month&#39;</span><span class="p">,</span> <span class="n">value_vars</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;traffic accidents&#39;</span><span class="p">,</span> <span class="s1">&#39;traffic violations&#39;</span><span class="p">],</span> 
+                           <span class="n">var_name</span><span class="o">=</span><span class="s1">&#39;type&#39;</span><span class="p">,</span> <span class="n">value_name</span><span class="o">=</span><span class="s1">&#39;count&#39;</span><span class="p">)</span>
+
+<span class="c1"># Create the line plot</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">df_melted</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;month&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;type&#39;</span><span class="p">,</span> 
+              <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;month&#39;</span><span class="p">:</span> <span class="s1">&#39;Date (Months)&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="s1">&#39;Count&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">},</span>
+              <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Monthly Traffic Accidents and Traffic Violations&#39;</span><span class="p">)</span>
+
+<span class="c1"># Show the plot</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</section>
+<section id="reflection">
+<h3>Reflection<a class="headerlink" href="#reflection" title="Link to this heading">#</a></h3>
+<p>Height van de parquet aanpassen <br>
+In de barplot aangeven welke dagen het heeft gevroren, ipv een aparte grafiek daarvoor.</p>
+</section>
+<section id="references">
+<h3>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h3>
+<p><a class="reference external" href="https://www.kaggle.com/datasets/sobhanmoosavi/us-accidents">https://www.kaggle.com/datasets/sobhanmoosavi/us-accidents</a> <br>
+<a class="reference external" href="https://www.kaggle.com/datasets/selfishgene/historical-hourly-weather-data/data?select=weather_description.csv">https://www.kaggle.com/datasets/selfishgene/historical-hourly-weather-data/data?select=weather_description.csv</a></p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset-and-preprocessing">Dataset and Preprocessing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-first-perspective">The First Perspective</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#accidents-per-day">Accidents per day</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#number-of-accidents-and-weather-scores">Number of accidents and Weather scores</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#effect-of-freezing">Effect of freezing</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-second-perspective">The Second Perspective</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#surrounding-conditions">Surrounding conditions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-drivers">The Drivers</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reflection">Reflection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Yen-Chia Hsu
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=3ee479438cf8b5e0d341"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
