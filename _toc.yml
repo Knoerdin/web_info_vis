@@ -6,3 +6,5 @@ root: docs/intro.md
 chapters:
 - file: docs/preprocess
 - file: docs/notebook
+- file: docs/conclusion
+- file: docs/work_distribution
