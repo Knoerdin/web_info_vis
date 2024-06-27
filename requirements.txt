@@ -5,3 +5,7 @@ numpy
 pandas
 plotly
 seaborn
+plotnine
+ipywidgets
+IPython.display
+plotly.subplots
