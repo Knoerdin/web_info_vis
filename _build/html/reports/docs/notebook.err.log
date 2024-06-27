@@ -1,77 +1,167 @@
 Traceback (most recent call last):
-  File "C:\Users\gijsv\anaconda3\envs\jupyterbook\lib\site-packages\jupyter_cache\executors\utils.py", line 58, in single_nb_execution
+  File "/Users/nordin/opt/anaconda3/envs/jupyterbook/lib/python3.10/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
     executenb(
-  File "C:\Users\gijsv\anaconda3\envs\jupyterbook\lib\site-packages\nbclient\client.py", line 1314, in execute
+  File "/Users/nordin/opt/anaconda3/envs/jupyterbook/lib/python3.10/site-packages/nbclient/client.py", line 1305, in execute
     return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
-  File "C:\Users\gijsv\anaconda3\envs\jupyterbook\lib\site-packages\jupyter_core\utils\__init__.py", line 165, in wrapped
+  File "/Users/nordin/opt/anaconda3/envs/jupyterbook/lib/python3.10/site-packages/jupyter_core/utils/__init__.py", line 165, in wrapped
     return loop.run_until_complete(inner)
-  File "C:\Users\gijsv\anaconda3\envs\jupyterbook\lib\asyncio\base_events.py", line 649, in run_until_complete
+  File "/Users/nordin/opt/anaconda3/envs/jupyterbook/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
     return future.result()
-  File "C:\Users\gijsv\anaconda3\envs\jupyterbook\lib\site-packages\nbclient\client.py", line 709, in async_execute
+  File "/Users/nordin/opt/anaconda3/envs/jupyterbook/lib/python3.10/site-packages/nbclient/client.py", line 705, in async_execute
     await self.async_execute_cell(
-  File "C:\Users\gijsv\anaconda3\envs\jupyterbook\lib\site-packages\nbclient\client.py", line 1062, in async_execute_cell
+  File "/Users/nordin/opt/anaconda3/envs/jupyterbook/lib/python3.10/site-packages/nbclient/client.py", line 1058, in async_execute_cell
     await self._check_raise_for_error(cell, cell_index, exec_reply)
-  File "C:\Users\gijsv\anaconda3\envs\jupyterbook\lib\site-packages\nbclient\client.py", line 918, in _check_raise_for_error
+  File "/Users/nordin/opt/anaconda3/envs/jupyterbook/lib/python3.10/site-packages/nbclient/client.py", line 914, in _check_raise_for_error
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
 import pandas as pd
 import plotly.graph_objects as go
-import plotly.express as px
+import numpy as np
 
-# datasets importen
-df = pd.read_csv('../resources/dataset_weather/weather_accidents.csv')
+# Load and filter data
+data = pd.read_csv('../resources\Code_website\F_PlotData.csv').dropna(subset=['Average_Severity', 'Weather_Score', 'Region'])
+region = data['Region'].value_counts().idxmax()
+rows = data[data['Region'] == region]
 
-# Filter the df to detroit
-df_detroit = df[df['City'] == 'Detroit']
+real_data = []
+for index, row in rows.iterrows():
+    date = row['Date']
+    weather_score = row['Weather_Score']
+    average_severity = row['Average_Severity']
+    real_data.append({
+        'Date': date,
+        'Weather_Score': weather_score,
+        'Average_Severity': average_severity,
+    })
+real_data = pd.DataFrame(real_data)
 
-# Drop irralevant columns
-df_detroit = df_detroit.drop(columns=['Severity', 'City'])
+dates = ['2016-04', '2016-07', '2016-10', '2017-01', '2017-04', '2017-07', '2017-10']
 
-# Count the entries per day
-accident_count = df_detroit['Date'].value_counts().sort_index()
+steps = []
+for i, date in enumerate(dates):
+    step = dict(
+        method='update',
+        args=[{'visible': [date == d for d in dates] * 2}],  # Update visibility for both scatter and regression line
+        label=date
+    )
+    steps.append(step)
 
-df_accidents = df.drop(columns=['Severity', 'City'])
-df_accidents['Date'] = pd.to_datetime(df_accidents['Date'])
-df_accidents['Date'] = df_accidents['Date'].dt.month_name()
-total_accidents = df_accidents['Date'].value_counts()
+sliders = [dict(
+    active=3,
+    pad={'t': 20, 'l': 20, 'b': 20},
+    steps=steps
+)]
 
-# Merge count with df
-df_detroit_count = pd.merge(df_detroit, accident_count, left_on=['Date'], right_on=[accident_count.index])
+fig = go.Figure()
 
-# Group dataframe by date
-df_detroit_count = df_detroit_count.groupby('Date').mean()
-df_detroit_count = df_detroit_count.reset_index()
+for date in dates:
+    sub_data = real_data[real_data['Date'].str.startswith(date)]
+    fig.add_trace(go.Scatter(
+        visible=(date == dates[3]),  # Set initial visibility
+        x=sub_data['Average_Severity'], 
+        y=sub_data['Weather_Score'],
+        mode='markers',
+        name=f'{date}',
+        marker=dict(
+            color='blue'
+        )
+    ))
+    
+    if len(sub_data) > 1:
+        slope, intercept = np.polyfit(sub_data['Average_Severity'], sub_data['Weather_Score'], 1)
+        regression_line = slope * sub_data['Average_Severity'] + intercept
+        fig.add_trace(go.Scatter(
+            visible=(date == dates[3]),
+            x=sub_data['Average_Severity'], 
+            y=regression_line,
+            mode='lines',
+            name=f'{date} Regression Line',
+            marker=dict(
+                color='black',
+            )
+        ))
 
-# Converting the the dates to the names of the month
-df_detroit_count['Date'] = pd.to_datetime(df_detroit_count['Date'])
-df_detroit_count['Date'] = df_detroit_count['Date'].dt.month_name()
 
-# Binning so the plot will show nice catagories
-df_detroit_count['Temp_bins'] = pd.cut(df_detroit_count['Temperature'], [0,275,1000], labels=['Freezing', 'Not Freezing'])
-df_detroit_count['Humidity_bins'] = pd.qcut(df_detroit_count['Humidity'], q=3, labels=['Low','Medium','High'])
-df_detroit_count['Wind_Speed_bins'] = pd.qcut(df_detroit_count['Wind_Speed_km'], q=3, labels=['Low','Medium','High'])
-df_detroit_count['count_bins'] = pd.qcut(df_detroit_count['count'], q=3, labels=['Low','Medium','High'])
-
-fig = px.histogram(df_accidents, x='Date', category_orders=dict(Date=["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]), title='Accidents per month in the US', labels={'Date':'Month', 'count' : 'Accidents'}, height=400)
-
-fig.add_annotation(x=-0.05, y=-0.28,
-                   xref="paper", yref="paper",
-                   showarrow=False,
-                   align='left',
-                   xanchor='left', yanchor='bottom',
-                   text='The sum of accidents in the US per month over the span of two years')
+fig.update_layout(
+    title='Average severity of an accident compared to the weather score on that same day, in the West Coast region of the US',
+    sliders=sliders,
+    xaxis_title='Average Severity',
+    yaxis_title='Weather Score',
+    title_x=0.5,
+    title_y=0.95,
+    showlegend=False,
+    dragmode=False,
+)
 
 fig.show()
+
 ------------------
 
 
-[1;31m---------------------------------------------------------------------------[0m
-[1;31mModuleNotFoundError[0m                       Traceback (most recent call last)
-Cell [1;32mIn[1], line 1[0m
-[1;32m----> 1[0m [38;5;28;01mimport[39;00m [38;5;21;01mpandas[39;00m [38;5;28;01mas[39;00m [38;5;21;01mpd[39;00m
-[0;32m      2[0m [38;5;28;01mimport[39;00m [38;5;21;01mplotly[39;00m[38;5;21;01m.[39;00m[38;5;21;01mgraph_objects[39;00m [38;5;28;01mas[39;00m [38;5;21;01mgo[39;00m
-[0;32m      3[0m [38;5;28;01mimport[39;00m [38;5;21;01mplotly[39;00m[38;5;21;01m.[39;00m[38;5;21;01mexpress[39;00m [38;5;28;01mas[39;00m [38;5;21;01mpx[39;00m
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mFileNotFoundError[0m                         Traceback (most recent call last)
+Cell [0;32mIn[4], line 6[0m
+[1;32m      3[0m [38;5;28;01mimport[39;00m [38;5;21;01mnumpy[39;00m [38;5;28;01mas[39;00m [38;5;21;01mnp[39;00m
+[1;32m      5[0m [38;5;66;03m# Load and filter data[39;00m
+[0;32m----> 6[0m data [38;5;241m=[39m [43mpd[49m[38;5;241;43m.[39;49m[43mread_csv[49m[43m([49m[38;5;124;43m'[39;49m[38;5;124;43m../resources[39;49m[38;5;124;43m\[39;49m[38;5;124;43mCode_website[39;49m[38;5;124;43m\[39;49m[38;5;124;43mF_PlotData.csv[39;49m[38;5;124;43m'[39;49m[43m)[49m[38;5;241m.[39mdropna(subset[38;5;241m=[39m[[38;5;124m'[39m[38;5;124mAverage_Severity[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124mWeather_Score[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124mRegion[39m[38;5;124m'[39m])
+[1;32m      7[0m region [38;5;241m=[39m data[[38;5;124m'[39m[38;5;124mRegion[39m[38;5;124m'[39m][38;5;241m.[39mvalue_counts()[38;5;241m.[39midxmax()
+[1;32m      8[0m rows [38;5;241m=[39m data[data[[38;5;124m'[39m[38;5;124mRegion[39m[38;5;124m'[39m] [38;5;241m==[39m region]
 
-[1;31mModuleNotFoundError[0m: No module named 'pandas'
+File [0;32m~/opt/anaconda3/envs/jupyterbook/lib/python3.10/site-packages/pandas/io/parsers/readers.py:1026[0m, in [0;36mread_csv[0;34m(filepath_or_buffer, sep, delimiter, header, names, index_col, usecols, dtype, engine, converters, true_values, false_values, skipinitialspace, skiprows, skipfooter, nrows, na_values, keep_default_na, na_filter, verbose, skip_blank_lines, parse_dates, infer_datetime_format, keep_date_col, date_parser, date_format, dayfirst, cache_dates, iterator, chunksize, compression, thousands, decimal, lineterminator, quotechar, quoting, doublequote, escapechar, comment, encoding, encoding_errors, dialect, on_bad_lines, delim_whitespace, low_memory, memory_map, float_precision, storage_options, dtype_backend)[0m
+[1;32m   1013[0m kwds_defaults [38;5;241m=[39m _refine_defaults_read(
+[1;32m   1014[0m     dialect,
+[1;32m   1015[0m     delimiter,
+[0;32m   (...)[0m
+[1;32m   1022[0m     dtype_backend[38;5;241m=[39mdtype_backend,
+[1;32m   1023[0m )
+[1;32m   1024[0m kwds[38;5;241m.[39mupdate(kwds_defaults)
+[0;32m-> 1026[0m [38;5;28;01mreturn[39;00m [43m_read[49m[43m([49m[43mfilepath_or_buffer[49m[43m,[49m[43m [49m[43mkwds[49m[43m)[49m
+
+File [0;32m~/opt/anaconda3/envs/jupyterbook/lib/python3.10/site-packages/pandas/io/parsers/readers.py:620[0m, in [0;36m_read[0;34m(filepath_or_buffer, kwds)[0m
+[1;32m    617[0m _validate_names(kwds[38;5;241m.[39mget([38;5;124m"[39m[38;5;124mnames[39m[38;5;124m"[39m, [38;5;28;01mNone[39;00m))
+[1;32m    619[0m [38;5;66;03m# Create the parser.[39;00m
+[0;32m--> 620[0m parser [38;5;241m=[39m [43mTextFileReader[49m[43m([49m[43mfilepath_or_buffer[49m[43m,[49m[43m [49m[38;5;241;43m*[39;49m[38;5;241;43m*[39;49m[43mkwds[49m[43m)[49m
+[1;32m    622[0m [38;5;28;01mif[39;00m chunksize [38;5;129;01mor[39;00m iterator:
+[1;32m    623[0m     [38;5;28;01mreturn[39;00m parser
+
+File [0;32m~/opt/anaconda3/envs/jupyterbook/lib/python3.10/site-packages/pandas/io/parsers/readers.py:1620[0m, in [0;36mTextFileReader.__init__[0;34m(self, f, engine, **kwds)[0m
+[1;32m   1617[0m     [38;5;28mself[39m[38;5;241m.[39moptions[[38;5;124m"[39m[38;5;124mhas_index_names[39m[38;5;124m"[39m] [38;5;241m=[39m kwds[[38;5;124m"[39m[38;5;124mhas_index_names[39m[38;5;124m"[39m]
+[1;32m   1619[0m [38;5;28mself[39m[38;5;241m.[39mhandles: IOHandles [38;5;241m|[39m [38;5;28;01mNone[39;00m [38;5;241m=[39m [38;5;28;01mNone[39;00m
+[0;32m-> 1620[0m [38;5;28mself[39m[38;5;241m.[39m_engine [38;5;241m=[39m [38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43m_make_engine[49m[43m([49m[43mf[49m[43m,[49m[43m [49m[38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43mengine[49m[43m)[49m
+
+File [0;32m~/opt/anaconda3/envs/jupyterbook/lib/python3.10/site-packages/pandas/io/parsers/readers.py:1880[0m, in [0;36mTextFileReader._make_engine[0;34m(self, f, engine)[0m
+[1;32m   1878[0m     [38;5;28;01mif[39;00m [38;5;124m"[39m[38;5;124mb[39m[38;5;124m"[39m [38;5;129;01mnot[39;00m [38;5;129;01min[39;00m mode:
+[1;32m   1879[0m         mode [38;5;241m+[39m[38;5;241m=[39m [38;5;124m"[39m[38;5;124mb[39m[38;5;124m"[39m
+[0;32m-> 1880[0m [38;5;28mself[39m[38;5;241m.[39mhandles [38;5;241m=[39m [43mget_handle[49m[43m([49m
+[1;32m   1881[0m [43m    [49m[43mf[49m[43m,[49m
+[1;32m   1882[0m [43m    [49m[43mmode[49m[43m,[49m
+[1;32m   1883[0m [43m    [49m[43mencoding[49m[38;5;241;43m=[39;49m[38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43moptions[49m[38;5;241;43m.[39;49m[43mget[49m[43m([49m[38;5;124;43m"[39;49m[38;5;124;43mencoding[39;49m[38;5;124;43m"[39;49m[43m,[49m[43m [49m[38;5;28;43;01mNone[39;49;00m[43m)[49m[43m,[49m
+[1;32m   1884[0m [43m    [49m[43mcompression[49m[38;5;241;43m=[39;49m[38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43moptions[49m[38;5;241;43m.[39;49m[43mget[49m[43m([49m[38;5;124;43m"[39;49m[38;5;124;43mcompression[39;49m[38;5;124;43m"[39;49m[43m,[49m[43m [49m[38;5;28;43;01mNone[39;49;00m[43m)[49m[43m,[49m
+[1;32m   1885[0m [43m    [49m[43mmemory_map[49m[38;5;241;43m=[39;49m[38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43moptions[49m[38;5;241;43m.[39;49m[43mget[49m[43m([49m[38;5;124;43m"[39;49m[38;5;124;43mmemory_map[39;49m[38;5;124;43m"[39;49m[43m,[49m[43m [49m[38;5;28;43;01mFalse[39;49;00m[43m)[49m[43m,[49m
+[1;32m   1886[0m [43m    [49m[43mis_text[49m[38;5;241;43m=[39;49m[43mis_text[49m[43m,[49m
+[1;32m   1887[0m [43m    [49m[43merrors[49m[38;5;241;43m=[39;49m[38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43moptions[49m[38;5;241;43m.[39;49m[43mget[49m[43m([49m[38;5;124;43m"[39;49m[38;5;124;43mencoding_errors[39;49m[38;5;124;43m"[39;49m[43m,[49m[43m [49m[38;5;124;43m"[39;49m[38;5;124;43mstrict[39;49m[38;5;124;43m"[39;49m[43m)[49m[43m,[49m
+[1;32m   1888[0m [43m    [49m[43mstorage_options[49m[38;5;241;43m=[39;49m[38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43moptions[49m[38;5;241;43m.[39;49m[43mget[49m[43m([49m[38;5;124;43m"[39;49m[38;5;124;43mstorage_options[39;49m[38;5;124;43m"[39;49m[43m,[49m[43m [49m[38;5;28;43;01mNone[39;49;00m[43m)[49m[43m,[49m
+[1;32m   1889[0m [43m[49m[43m)[49m
+[1;32m   1890[0m [38;5;28;01massert[39;00m [38;5;28mself[39m[38;5;241m.[39mhandles [38;5;129;01mis[39;00m [38;5;129;01mnot[39;00m [38;5;28;01mNone[39;00m
+[1;32m   1891[0m f [38;5;241m=[39m [38;5;28mself[39m[38;5;241m.[39mhandles[38;5;241m.[39mhandle
+
+File [0;32m~/opt/anaconda3/envs/jupyterbook/lib/python3.10/site-packages/pandas/io/common.py:873[0m, in [0;36mget_handle[0;34m(path_or_buf, mode, encoding, compression, memory_map, is_text, errors, storage_options)[0m
+[1;32m    868[0m [38;5;28;01melif[39;00m [38;5;28misinstance[39m(handle, [38;5;28mstr[39m):
+[1;32m    869[0m     [38;5;66;03m# Check whether the filename is to be opened in binary mode.[39;00m
+[1;32m    870[0m     [38;5;66;03m# Binary mode does not support 'encoding' and 'newline'.[39;00m
+[1;32m    871[0m     [38;5;28;01mif[39;00m ioargs[38;5;241m.[39mencoding [38;5;129;01mand[39;00m [38;5;124m"[39m[38;5;124mb[39m[38;5;124m"[39m [38;5;129;01mnot[39;00m [38;5;129;01min[39;00m ioargs[38;5;241m.[39mmode:
+[1;32m    872[0m         [38;5;66;03m# Encoding[39;00m
+[0;32m--> 873[0m         handle [38;5;241m=[39m [38;5;28;43mopen[39;49m[43m([49m
+[1;32m    874[0m [43m            [49m[43mhandle[49m[43m,[49m
+[1;32m    875[0m [43m            [49m[43mioargs[49m[38;5;241;43m.[39;49m[43mmode[49m[43m,[49m
+[1;32m    876[0m [43m            [49m[43mencoding[49m[38;5;241;43m=[39;49m[43mioargs[49m[38;5;241;43m.[39;49m[43mencoding[49m[43m,[49m
+[1;32m    877[0m [43m            [49m[43merrors[49m[38;5;241;43m=[39;49m[43merrors[49m[43m,[49m
+[1;32m    878[0m [43m            [49m[43mnewline[49m[38;5;241;43m=[39;49m[38;5;124;43m"[39;49m[38;5;124;43m"[39;49m[43m,[49m
+[1;32m    879[0m [43m        [49m[43m)[49m
+[1;32m    880[0m     [38;5;28;01melse[39;00m:
+[1;32m    881[0m         [38;5;66;03m# Binary mode[39;00m
+[1;32m    882[0m         handle [38;5;241m=[39m [38;5;28mopen[39m(handle, ioargs[38;5;241m.[39mmode)
+
+[0;31mFileNotFoundError[0m: [Errno 2] No such file or directory: '../resources\\Code_website\\F_PlotData.csv'
 
