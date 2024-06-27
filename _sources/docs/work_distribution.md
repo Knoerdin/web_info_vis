@@ -1,4 +1,5 @@
 # Work distribution
+
 Our workflow consisted mainly of seminars, and often also booking rooms to work in after these seminars. We frequently bounced ideas off of each other and provided each other with valuable feedback. Individually our work was divided as follows.
 
 Nordin: Mainly took lead of the group and the vision of the final product. Created multiple plots, and was responsible for the creation of the website.
