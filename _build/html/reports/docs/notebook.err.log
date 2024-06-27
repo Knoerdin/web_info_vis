@@ -1,77 +1,77 @@
 Traceback (most recent call last):
-  File "/Users/nordin/opt/anaconda3/envs/jupyterbook/lib/python3.10/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+  File "C:\Users\gijsv\anaconda3\envs\jupyterbook\lib\site-packages\jupyter_cache\executors\utils.py", line 58, in single_nb_execution
     executenb(
-  File "/Users/nordin/opt/anaconda3/envs/jupyterbook/lib/python3.10/site-packages/nbclient/client.py", line 1305, in execute
+  File "C:\Users\gijsv\anaconda3\envs\jupyterbook\lib\site-packages\nbclient\client.py", line 1314, in execute
     return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
-  File "/Users/nordin/opt/anaconda3/envs/jupyterbook/lib/python3.10/site-packages/jupyter_core/utils/__init__.py", line 165, in wrapped
+  File "C:\Users\gijsv\anaconda3\envs\jupyterbook\lib\site-packages\jupyter_core\utils\__init__.py", line 165, in wrapped
     return loop.run_until_complete(inner)
-  File "/Users/nordin/opt/anaconda3/envs/jupyterbook/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+  File "C:\Users\gijsv\anaconda3\envs\jupyterbook\lib\asyncio\base_events.py", line 649, in run_until_complete
     return future.result()
-  File "/Users/nordin/opt/anaconda3/envs/jupyterbook/lib/python3.10/site-packages/nbclient/client.py", line 705, in async_execute
+  File "C:\Users\gijsv\anaconda3\envs\jupyterbook\lib\site-packages\nbclient\client.py", line 709, in async_execute
     await self.async_execute_cell(
-  File "/Users/nordin/opt/anaconda3/envs/jupyterbook/lib/python3.10/site-packages/nbclient/client.py", line 1058, in async_execute_cell
+  File "C:\Users\gijsv\anaconda3\envs\jupyterbook\lib\site-packages\nbclient\client.py", line 1062, in async_execute_cell
     await self._check_raise_for_error(cell, cell_index, exec_reply)
-  File "/Users/nordin/opt/anaconda3/envs/jupyterbook/lib/python3.10/site-packages/nbclient/client.py", line 914, in _check_raise_for_error
+  File "C:\Users\gijsv\anaconda3\envs\jupyterbook\lib\site-packages\nbclient\client.py", line 918, in _check_raise_for_error
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
 import pandas as pd
-from plotnine import ggplot, aes, geom_point, facet_wrap, labs, theme_light, theme, scale_x_continuous, ggtitle, geom_smooth
-import ipywidgets as widgets
-from ipywidgets import GridspecLayout
 import plotly.graph_objects as go
-from IPython.display import display, clear_output
 import plotly.express as px
-from plotly.subplots import make_subplots
 
-data = pd.read_csv('../resources/Code_website/F_PlotData.csv')
+# datasets importen
+df = pd.read_csv('../resources/dataset_weather/weather_accidents.csv')
 
+# Filter the df to detroit
+df_detroit = df[df['City'] == 'Detroit']
 
-data['Date'] = pd.to_datetime(data['Date'])
+# Drop irralevant columns
+df_detroit = df_detroit.drop(columns=['Severity', 'City'])
 
-def update_figure(selected_date):
-    filtered_data = data[data['Date'].dt.to_period('M') == selected_date]
-    
-    p = ggplot(filtered_data, aes(x='Average_Severity', y='Weather_Score', color='Region')) + \
-        geom_point() + \
-        geom_smooth(method='lm', se=False, color='black') + \
-        facet_wrap('~Region', ncol=3) + \
-        labs(x="Average Severity", y="Weather Score") + \
-        ggtitle('The impact of weather on the severity of traffic accidents, in the regions of the US, during a specific timeframe') + \
-        theme_light() + \
-        theme(legend_position='none') + \
-        theme(panel_spacing_y=0, panel_spacing_x=0.03) + \
-        scale_x_continuous(limits=(2, 4), breaks=range(1, 5)) + \
-        theme(figure_size=(13, 6)) 
-    
-    clear_output(wait=True)
-    display(date_dropdown)
-    display(p)
+# Count the entries per day
+accident_count = df_detroit['Date'].value_counts().sort_index()
 
-dates = ['2016-01', '2016-04', '2016-07', '2016-10', '2017-01', '2017-04', '2017-07', '2017-10']
-date_dropdown = widgets.Dropdown(
-    options=dates,
-    value='2017-01',
-    description='Date:'
-)
-display(date_dropdown)
+df_accidents = df.drop(columns=['Severity', 'City'])
+df_accidents['Date'] = pd.to_datetime(df_accidents['Date'])
+df_accidents['Date'] = df_accidents['Date'].dt.month_name()
+total_accidents = df_accidents['Date'].value_counts()
 
-def on_date_change(change):
-    update_figure(change.new)
+# Merge count with df
+df_detroit_count = pd.merge(df_detroit, accident_count, left_on=['Date'], right_on=[accident_count.index])
 
-date_dropdown.observe(on_date_change, names='value')
+# Group dataframe by date
+df_detroit_count = df_detroit_count.groupby('Date').mean()
+df_detroit_count = df_detroit_count.reset_index()
 
-update_figure('2017-01')
+# Converting the the dates to the names of the month
+df_detroit_count['Date'] = pd.to_datetime(df_detroit_count['Date'])
+df_detroit_count['Date'] = df_detroit_count['Date'].dt.month_name()
+
+# Binning so the plot will show nice catagories
+df_detroit_count['Temp_bins'] = pd.cut(df_detroit_count['Temperature'], [0,275,1000], labels=['Freezing', 'Not Freezing'])
+df_detroit_count['Humidity_bins'] = pd.qcut(df_detroit_count['Humidity'], q=3, labels=['Low','Medium','High'])
+df_detroit_count['Wind_Speed_bins'] = pd.qcut(df_detroit_count['Wind_Speed_km'], q=3, labels=['Low','Medium','High'])
+df_detroit_count['count_bins'] = pd.qcut(df_detroit_count['count'], q=3, labels=['Low','Medium','High'])
+
+fig = px.histogram(df_accidents, x='Date', category_orders=dict(Date=["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]), title='Accidents per month in the US', labels={'Date':'Month', 'count' : 'Accidents'}, height=400)
+
+fig.add_annotation(x=-0.05, y=-0.28,
+                   xref="paper", yref="paper",
+                   showarrow=False,
+                   align='left',
+                   xanchor='left', yanchor='bottom',
+                   text='The sum of accidents in the US per month over the span of two years')
+
+fig.show()
 ------------------
 
 
-[0;31m---------------------------------------------------------------------------[0m
-[0;31mModuleNotFoundError[0m                       Traceback (most recent call last)
-Cell [0;32mIn[3], line 2[0m
-[1;32m      1[0m [38;5;28;01mimport[39;00m [38;5;21;01mpandas[39;00m [38;5;28;01mas[39;00m [38;5;21;01mpd[39;00m
-[0;32m----> 2[0m [38;5;28;01mfrom[39;00m [38;5;21;01mplotnine[39;00m [38;5;28;01mimport[39;00m ggplot, aes, geom_point, facet_wrap, labs, theme_light, theme, scale_x_continuous, ggtitle, geom_smooth
-[1;32m      3[0m [38;5;28;01mimport[39;00m [38;5;21;01mipywidgets[39;00m [38;5;28;01mas[39;00m [38;5;21;01mwidgets[39;00m
-[1;32m      4[0m [38;5;28;01mfrom[39;00m [38;5;21;01mipywidgets[39;00m [38;5;28;01mimport[39;00m GridspecLayout
+[1;31m---------------------------------------------------------------------------[0m
+[1;31mModuleNotFoundError[0m                       Traceback (most recent call last)
+Cell [1;32mIn[1], line 1[0m
+[1;32m----> 1[0m [38;5;28;01mimport[39;00m [38;5;21;01mpandas[39;00m [38;5;28;01mas[39;00m [38;5;21;01mpd[39;00m
+[0;32m      2[0m [38;5;28;01mimport[39;00m [38;5;21;01mplotly[39;00m[38;5;21;01m.[39;00m[38;5;21;01mgraph_objects[39;00m [38;5;28;01mas[39;00m [38;5;21;01mgo[39;00m
+[0;32m      3[0m [38;5;28;01mimport[39;00m [38;5;21;01mplotly[39;00m[38;5;21;01m.[39;00m[38;5;21;01mexpress[39;00m [38;5;28;01mas[39;00m [38;5;21;01mpx[39;00m
 
-[0;31mModuleNotFoundError[0m: No module named 'plotnine'
+[1;31mModuleNotFoundError[0m: No module named 'pandas'
 
