@@ -1,4 +1,5 @@
 # Conclusion
+
 After taking a look at these charts, one may conclude that the weather does not have a particularly great impact on the amount of accidents on the road. Contrastingly, the first chart, ‘Accidents per month’ shows a basic visualization of when accidents are most prevalent, one might notice that these amounts are highest during summer and winter, two seasons where heavy weather is the most outspoken. The next chart, ‘Effect of Freezing’, supports this view by showing that freezing temperatures, most common in winter, have a minor impact on the amount of accidents per day.
 
 The weatherscore map may initially give the impression that places with a higher weather score boast more accidents. However, looking at individual states and changing times, and therefore weather score, shows that varying weather scores in a single state do not correlate well with the amount of accidents in that state. The impact of weather on severity also does not show great correlation between weather and severity of accidents, which also proves the point that weather does not have a great impact on accidents.
@@ -9,7 +10,8 @@ Due to the amount of factors and variables that can have an effect on drivers an
 
 Further research might take a look at how the weather could impact driving behavior and frequency, and could include more robust datasets to avoid bias and come to a more solid conclusion.
 
-# Reflection
+## Reflection
+
 When receiving feedback for an unfinished earlier version of this notebook, two points of feedback were received. Both these points relate to two graphs that are no longer present in the final version of this data story. The feedback made us realize the flaws in the methods of visualization for the data they presented, so it was decided to remove these plots and transform them into ‘Effect of Freezing’ and ‘Accidents per day’.
 
 For self-reflection, we believe that we might have had more freedom in creating plots if we had taken more time looking for datasets and subjects, as the datasets we chose were fairly constricting in how they were able to be visualized. As a result some of the plots in the data story are relatively unbalanced in terms of perspective they support, and in argumentative strength.
