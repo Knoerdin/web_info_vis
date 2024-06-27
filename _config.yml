@@ -1,8 +1,8 @@
 # Book settings
 # Learn more at https://jupyterbook.org/customize/config.html
 
-title: Jupyter Book Template # Change this to your book title.
-author: Yen-Chia Hsu # Change this to your name (or your team/organization name).
+title: Analyse van weersverschijnselen en verkeersongelukken in de VS # Change this to your book title.
+author: Nordin Jansen # Change this to your name (or your team/organization name).
 
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html
