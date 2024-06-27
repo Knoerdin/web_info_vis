@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>&lt;no title&gt; &#8212; Jupyter Book Template</title>
+    <title>&lt;no title&gt; &#8212; Analyse van weersverschijnselen en verkeersongelukken in de VS</title>
   
   
   
@@ -141,14 +141,14 @@
 
   
 
-<a class="navbar-brand logo" href="../../docs/home.html">
+<a class="navbar-brand logo" href="../../docs/intro.html">
   
   
   
   
   
   
-    <p class="title logo__title">Jupyter Book Template</p>
+    <p class="title logo__title">Analyse van weersverschijnselen en verkeersongelukken in de VS</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -167,8 +167,8 @@
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
-                <a class="reference internal" href="../../docs/home.html">
-                    Jupyter Book Tutorial
+                <a class="reference internal" href="../../docs/intro.html">
+                    <no title>
                 </a>
             </li>
         </ul>
@@ -463,15 +463,15 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/5r/4dlwcpf56d76tctrcxgmk99w0000gn/T/ipykernel_80619/3732266852.py:4: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/5r/4dlwcpf56d76tctrcxgmk99w0000gn/T/ipykernel_87636/3732266852.py:4: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
   temp_raw[&#39;datetime&#39;] = pd.to_datetime(temp_raw[&#39;datetime&#39;])
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/5r/4dlwcpf56d76tctrcxgmk99w0000gn/T/ipykernel_80619/3732266852.py:5: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/5r/4dlwcpf56d76tctrcxgmk99w0000gn/T/ipykernel_87636/3732266852.py:5: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
   humidity_raw[&#39;datetime&#39;] = pd.to_datetime(humidity_raw[&#39;datetime&#39;])
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/5r/4dlwcpf56d76tctrcxgmk99w0000gn/T/ipykernel_80619/3732266852.py:6: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/5r/4dlwcpf56d76tctrcxgmk99w0000gn/T/ipykernel_87636/3732266852.py:6: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
   wind_speed_raw[&#39;datetime&#39;] = pd.to_datetime(wind_speed_raw[&#39;datetime&#39;])
 </pre></div>
 </div>
@@ -765,7 +765,7 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">weather_accidents</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;weather_accidents.csv&#39;</span><span class="p">,</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">weather_accidents</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;../../resources/dataset_weather/weather_accidents.csv&#39;</span><span class="p">,</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -832,7 +832,7 @@ document.write(`
   <div class="footer-item">
     
 <p class="component-author">
-By Yen-Chia Hsu
+By Nordin Jansen
 </p>
 
   </div>
