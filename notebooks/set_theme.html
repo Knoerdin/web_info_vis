@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>&lt;no title&gt; &#8212; Analyse van weersverschijnselen en verkeersongelukken in de VS</title>
+    <title>&lt;no title&gt; &#8212; Analysis of Weather Conditions and their Relation to Traffic Accidents in the US</title>
   
   
   
@@ -148,7 +148,7 @@
   
   
   
-    <p class="title logo__title">Analyse van weersverschijnselen en verkeersongelukken in de VS</p>
+    <p class="title logo__title">Analysis of Weather Conditions and their Relation to Traffic Accidents in the US</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -420,10 +420,9 @@ document.write(`
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">plotly.io</span> <span class="k">as</span> <span class="nn">pio</span>
 
 <span class="k">if</span> <span class="s1">&#39;custom&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">pio</span><span class="o">.</span><span class="n">templates</span><span class="p">:</span>
-    <span class="n">transparent</span> <span class="o">=</span> <span class="s1">&#39;rgba(0,0,0,0)&#39;</span>
-    <span class="n">bgcolor</span> <span class="o">=</span> <span class="s1">&#39;rgba(106, 123, 247,255)&#39;</span>
+    <span class="n">transparent</span> <span class="o">=</span> <span class="s1">&#39;rgba(106, 123, 247,255)&#39;</span>
+    <span class="n">bgcolor</span> <span class="o">=</span> <span class="s1">&#39;#fdead4&#39;</span>
     <span class="n">black</span> <span class="o">=</span> <span class="s1">&#39;#343a42&#39;</span>
-    <span class="n">white</span> <span class="o">=</span> <span class="s1">&#39;rgba(255, 250, 250, 255)&#39;</span>
     <span class="n">cyan</span> <span class="o">=</span> <span class="s1">&#39;#4edcda&#39;</span>
     <span class="n">darkcyan</span> <span class="o">=</span> <span class="s1">&#39;#2b9694&#39;</span>
     <span class="n">blue</span> <span class="o">=</span> <span class="s1">&#39;#4c75eb&#39;</span>
@@ -432,7 +431,7 @@ document.write(`
     <span class="n">purple</span> <span class="o">=</span> <span class="s1">&#39;#a736a0&#39;</span>
     <span class="n">red</span> <span class="o">=</span> <span class="s1">&#39;#f74e4e&#39;</span>
     <span class="n">darkred</span> <span class="o">=</span> <span class="s1">&#39;#b33c3c&#39;</span>
-    <span class="n">green</span> <span class="o">=</span> <span class="s1">&#39;rgba(0,172,0,255)&#39;</span>
+    <span class="n">green</span> <span class="o">=</span> <span class="s1">&#39;#2d8923&#39;</span>
     <span class="n">darkgreen</span> <span class="o">=</span> <span class="s1">&#39;#2d8923&#39;</span>
     <span class="n">orange</span> <span class="o">=</span> <span class="s1">&#39;#f7b24e&#39;</span>
     <span class="n">brown</span> <span class="o">=</span> <span class="s1">&#39;#d8bea1&#39;</span>
@@ -445,7 +444,6 @@ document.write(`
                 <span class="p">{</span>
                     <span class="s1">&#39;marker&#39;</span><span class="p">:</span> <span class="p">{</span>
                         <span class="s1">&#39;line&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
-                        <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="n">green</span>
                     <span class="p">}</span>
                 <span class="p">}</span>
             <span class="p">]</span>
@@ -453,7 +451,7 @@ document.write(`
         <span class="s1">&#39;layout&#39;</span><span class="p">:</span> <span class="p">{</span>
             <span class="s1">&#39;paper_bgcolor&#39;</span><span class="p">:</span> <span class="n">bgcolor</span><span class="p">,</span>
             <span class="s1">&#39;plot_bgcolor&#39;</span><span class="p">:</span> <span class="n">transparent</span><span class="p">,</span>
-            <span class="s1">&#39;font&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="n">white</span><span class="p">},</span>
+            <span class="s1">&#39;font&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="n">black</span><span class="p">},</span>
             <span class="s1">&#39;xaxis&#39;</span><span class="p">:</span> <span class="p">{</span>
                 <span class="s1">&#39;zerolinecolor&#39;</span><span class="p">:</span> <span class="n">brown</span><span class="p">,</span>
                 <span class="s1">&#39;gridcolor&#39;</span><span class="p">:</span> <span class="n">brown</span><span class="p">,</span>
@@ -540,7 +538,7 @@ document.write(`
   <div class="footer-item">
     
 <p class="component-author">
-By Nordin Jansen
+By InfoVis Group I1
 </p>
 
   </div>
