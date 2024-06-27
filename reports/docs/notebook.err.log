@@ -16,175 +16,62 @@ Traceback (most recent call last):
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
 import pandas as pd
+from plotnine import ggplot, aes, geom_point, facet_wrap, labs, theme_light, theme, scale_x_continuous, ggtitle, geom_smooth
+import ipywidgets as widgets
+from ipywidgets import GridspecLayout
 import plotly.graph_objects as go
-from matplotlib import scale
+from IPython.display import display, clear_output
+import plotly.express as px
+from plotly.subplots import make_subplots
+
+data = pd.read_csv('../resources/Code_website/F_PlotData.csv')
 
 
-pf = pd.read_csv('W_PlotData.csv')
-df = pd.read_csv('A_AccidentsNewData.csv')
+data['Date'] = pd.to_datetime(data['Date'])
 
-groottes = [(0, 5), (5, 20), (20, 50), (50, 250), (250, 1000)]
-scale = 0.5
+def update_figure(selected_date):
+    filtered_data = data[data['Date'].dt.to_period('M') == selected_date]
+    
+    p = ggplot(filtered_data, aes(x='Average_Severity', y='Weather_Score', color='Region')) + \
+        geom_point() + \
+        geom_smooth(method='lm', se=False, color='black') + \
+        facet_wrap('~Region', ncol=3) + \
+        labs(x="Average Severity", y="Weather Score") + \
+        ggtitle('The impact of weather on the severity of traffic accidents, in the regions of the US, during a specific timeframe') + \
+        theme_light() + \
+        theme(legend_position='none') + \
+        theme(panel_spacing_y=0, panel_spacing_x=0.03) + \
+        scale_x_continuous(limits=(2, 4), breaks=range(1, 5)) + \
+        theme(figure_size=(13, 6)) 
+    
+    clear_output(wait=True)
+    display(date_dropdown)
+    display(p)
 
 dates = ['2016-01', '2016-04', '2016-07', '2016-10', '2017-01', '2017-04', '2017-07', '2017-10']
-fig = go.Figure()
-
-# Loop?!
-for date in dates:
-    avg_score_per_state = pf[pf['Date'] == date].groupby('State')['score'].mean().reset_index()
-    # Choropleth
-    fig.add_trace(go.Choropleth(
-        visible=(date == dates[3]),
-        locations=avg_score_per_state['State'],
-        z=avg_score_per_state['score'],
-        locationmode='USA-states',
-        colorscale=['#fde0ef', '#f1b6da', '#de77ae', '#c51b7d', '#8e0152'],
-        colorbar=dict(
-            title='Average Weather Score for each state:',
-            x=1,
-            y=0.3,
-            len=0.6,
-            thickness=15,
-            
-        ),
-        showscale=True,
-        name=f'Weather Score {date}'
-    ))
-
-# Scatter
-for lim in groottes:
-    scatter_traces = [] 
-    for date in dates:
-        df_sub = df[(df['Accidents'] >= lim[0]) & (df['Accidents'] < lim[1]) & (df['Date'] == date)]
-        scatter_traces.append(go.Scattergeo(
-            visible=(date == dates[3]),
-            locationmode='USA-states',
-            lon=df_sub['lng'],
-            lat=df_sub['lat'],
-            text=df_sub['City'] + ': ' + df_sub['Accidents'].astype(str) + ' Accidents',
-            mode='markers',
-            marker=dict(
-                size=df_sub['Accidents'] * scale,
-                color='#3182bd',
-                line_color='rgb(40,40,40)',
-                line_width=0.5,
-                sizemode='area'
-            ),
-            name=f'{lim[0]} - {lim[1]} Accidents {date}'
-        ))
-    fig.add_traces(scatter_traces)
-
-#slidy sliders
-steps = []
-for i, date in enumerate(dates):
-    step = dict(
-        method='update',
-        args=[{'visible': [date == d for d in dates]}],
-        label=date
-    )
-    steps.append(step)
-
-sliders = [dict(
-    active=3,
-    pad={'t': 20, 'l': 20, 'b':20},
-    steps=steps
-)]
-
-#layout ...
-fig.update_layout(
-    sliders=sliders,
-    title='Total of accidents for each city in the USA for 2016 and 2017',
-    title_x=0.5,
-    title_y=0.95,
-    showlegend=True,
-    legend_title_text='Amount of Accidents:',
-    geo=dict(scope='usa', landcolor='rgb(217, 217, 217)'),
-    geo_center=dict(lon=-105, lat=38),
-    margin=dict(l=0, r=0, t=50, b=0),
-    coloraxis_colorbar=dict(lenmode='fraction', len=0.5),
-    dragmode=False,
+date_dropdown = widgets.Dropdown(
+    options=dates,
+    value='2017-01',
+    description='Date:'
 )
+display(date_dropdown)
 
-#Knopperss
-zoom_buttons = [
-    dict(args=[{"geo.projection.scale": 1, "geo.center.lon": -105, "geo.center.lat": 38}], label='Back', method="relayout"),
-    dict(args=[{"geo.projection.scale": 1.5, "geo.center.lon": -117.5, "geo.center.lat": 44}], label='Zoom Left Top', method="relayout"),
-    dict(args=[{"geo.projection.scale": 1.5, "geo.center.lon": -117.5, "geo.center.lat": 31.5}], label='Zoom Left Bottom', method="relayout"),
-    dict(args=[{"geo.projection.scale": 1.5, "geo.center.lon": -92.5, "geo.center.lat": 44}], label='Zoom Right Top', method="relayout"),
-    dict(args=[{"geo.projection.scale": 1.5, "geo.center.lon": -92.5, "geo.center.lat": 31.5}], label='Zoom Right Bottom', method="relayout")
-]
+def on_date_change(change):
+    update_figure(change.new)
 
-fig.update_layout(
-    updatemenus=[dict(type="buttons", showactive=False, buttons=zoom_buttons, x=0.2, y=0.85)],
-)
+date_dropdown.observe(on_date_change, names='value')
 
-fig.show(config={'scrollZoom': False})
+update_figure('2017-01')
 ------------------
 
 
 [0;31m---------------------------------------------------------------------------[0m
-[0;31mFileNotFoundError[0m                         Traceback (most recent call last)
-Cell [0;32mIn[2], line 6[0m
-[1;32m      2[0m [38;5;28;01mimport[39;00m [38;5;21;01mplotly[39;00m[38;5;21;01m.[39;00m[38;5;21;01mgraph_objects[39;00m [38;5;28;01mas[39;00m [38;5;21;01mgo[39;00m
-[1;32m      3[0m [38;5;28;01mfrom[39;00m [38;5;21;01mmatplotlib[39;00m [38;5;28;01mimport[39;00m scale
-[0;32m----> 6[0m pf [38;5;241m=[39m [43mpd[49m[38;5;241;43m.[39;49m[43mread_csv[49m[43m([49m[38;5;124;43m'[39;49m[38;5;124;43mW_PlotData.csv[39;49m[38;5;124;43m'[39;49m[43m)[49m
-[1;32m      7[0m df [38;5;241m=[39m pd[38;5;241m.[39mread_csv([38;5;124m'[39m[38;5;124mA_AccidentsNewData.csv[39m[38;5;124m'[39m)
-[1;32m      9[0m groottes [38;5;241m=[39m [([38;5;241m0[39m, [38;5;241m5[39m), ([38;5;241m5[39m, [38;5;241m20[39m), ([38;5;241m20[39m, [38;5;241m50[39m), ([38;5;241m50[39m, [38;5;241m250[39m), ([38;5;241m250[39m, [38;5;241m1000[39m)]
+[0;31mModuleNotFoundError[0m                       Traceback (most recent call last)
+Cell [0;32mIn[3], line 2[0m
+[1;32m      1[0m [38;5;28;01mimport[39;00m [38;5;21;01mpandas[39;00m [38;5;28;01mas[39;00m [38;5;21;01mpd[39;00m
+[0;32m----> 2[0m [38;5;28;01mfrom[39;00m [38;5;21;01mplotnine[39;00m [38;5;28;01mimport[39;00m ggplot, aes, geom_point, facet_wrap, labs, theme_light, theme, scale_x_continuous, ggtitle, geom_smooth
+[1;32m      3[0m [38;5;28;01mimport[39;00m [38;5;21;01mipywidgets[39;00m [38;5;28;01mas[39;00m [38;5;21;01mwidgets[39;00m
+[1;32m      4[0m [38;5;28;01mfrom[39;00m [38;5;21;01mipywidgets[39;00m [38;5;28;01mimport[39;00m GridspecLayout
 
-File [0;32m~/opt/anaconda3/envs/jupyterbook/lib/python3.10/site-packages/pandas/io/parsers/readers.py:1026[0m, in [0;36mread_csv[0;34m(filepath_or_buffer, sep, delimiter, header, names, index_col, usecols, dtype, engine, converters, true_values, false_values, skipinitialspace, skiprows, skipfooter, nrows, na_values, keep_default_na, na_filter, verbose, skip_blank_lines, parse_dates, infer_datetime_format, keep_date_col, date_parser, date_format, dayfirst, cache_dates, iterator, chunksize, compression, thousands, decimal, lineterminator, quotechar, quoting, doublequote, escapechar, comment, encoding, encoding_errors, dialect, on_bad_lines, delim_whitespace, low_memory, memory_map, float_precision, storage_options, dtype_backend)[0m
-[1;32m   1013[0m kwds_defaults [38;5;241m=[39m _refine_defaults_read(
-[1;32m   1014[0m     dialect,
-[1;32m   1015[0m     delimiter,
-[0;32m   (...)[0m
-[1;32m   1022[0m     dtype_backend[38;5;241m=[39mdtype_backend,
-[1;32m   1023[0m )
-[1;32m   1024[0m kwds[38;5;241m.[39mupdate(kwds_defaults)
-[0;32m-> 1026[0m [38;5;28;01mreturn[39;00m [43m_read[49m[43m([49m[43mfilepath_or_buffer[49m[43m,[49m[43m [49m[43mkwds[49m[43m)[49m
-
-File [0;32m~/opt/anaconda3/envs/jupyterbook/lib/python3.10/site-packages/pandas/io/parsers/readers.py:620[0m, in [0;36m_read[0;34m(filepath_or_buffer, kwds)[0m
-[1;32m    617[0m _validate_names(kwds[38;5;241m.[39mget([38;5;124m"[39m[38;5;124mnames[39m[38;5;124m"[39m, [38;5;28;01mNone[39;00m))
-[1;32m    619[0m [38;5;66;03m# Create the parser.[39;00m
-[0;32m--> 620[0m parser [38;5;241m=[39m [43mTextFileReader[49m[43m([49m[43mfilepath_or_buffer[49m[43m,[49m[43m [49m[38;5;241;43m*[39;49m[38;5;241;43m*[39;49m[43mkwds[49m[43m)[49m
-[1;32m    622[0m [38;5;28;01mif[39;00m chunksize [38;5;129;01mor[39;00m iterator:
-[1;32m    623[0m     [38;5;28;01mreturn[39;00m parser
-
-File [0;32m~/opt/anaconda3/envs/jupyterbook/lib/python3.10/site-packages/pandas/io/parsers/readers.py:1620[0m, in [0;36mTextFileReader.__init__[0;34m(self, f, engine, **kwds)[0m
-[1;32m   1617[0m     [38;5;28mself[39m[38;5;241m.[39moptions[[38;5;124m"[39m[38;5;124mhas_index_names[39m[38;5;124m"[39m] [38;5;241m=[39m kwds[[38;5;124m"[39m[38;5;124mhas_index_names[39m[38;5;124m"[39m]
-[1;32m   1619[0m [38;5;28mself[39m[38;5;241m.[39mhandles: IOHandles [38;5;241m|[39m [38;5;28;01mNone[39;00m [38;5;241m=[39m [38;5;28;01mNone[39;00m
-[0;32m-> 1620[0m [38;5;28mself[39m[38;5;241m.[39m_engine [38;5;241m=[39m [38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43m_make_engine[49m[43m([49m[43mf[49m[43m,[49m[43m [49m[38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43mengine[49m[43m)[49m
-
-File [0;32m~/opt/anaconda3/envs/jupyterbook/lib/python3.10/site-packages/pandas/io/parsers/readers.py:1880[0m, in [0;36mTextFileReader._make_engine[0;34m(self, f, engine)[0m
-[1;32m   1878[0m     [38;5;28;01mif[39;00m [38;5;124m"[39m[38;5;124mb[39m[38;5;124m"[39m [38;5;129;01mnot[39;00m [38;5;129;01min[39;00m mode:
-[1;32m   1879[0m         mode [38;5;241m+[39m[38;5;241m=[39m [38;5;124m"[39m[38;5;124mb[39m[38;5;124m"[39m
-[0;32m-> 1880[0m [38;5;28mself[39m[38;5;241m.[39mhandles [38;5;241m=[39m [43mget_handle[49m[43m([49m
-[1;32m   1881[0m [43m    [49m[43mf[49m[43m,[49m
-[1;32m   1882[0m [43m    [49m[43mmode[49m[43m,[49m
-[1;32m   1883[0m [43m    [49m[43mencoding[49m[38;5;241;43m=[39;49m[38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43moptions[49m[38;5;241;43m.[39;49m[43mget[49m[43m([49m[38;5;124;43m"[39;49m[38;5;124;43mencoding[39;49m[38;5;124;43m"[39;49m[43m,[49m[43m [49m[38;5;28;43;01mNone[39;49;00m[43m)[49m[43m,[49m
-[1;32m   1884[0m [43m    [49m[43mcompression[49m[38;5;241;43m=[39;49m[38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43moptions[49m[38;5;241;43m.[39;49m[43mget[49m[43m([49m[38;5;124;43m"[39;49m[38;5;124;43mcompression[39;49m[38;5;124;43m"[39;49m[43m,[49m[43m [49m[38;5;28;43;01mNone[39;49;00m[43m)[49m[43m,[49m
-[1;32m   1885[0m [43m    [49m[43mmemory_map[49m[38;5;241;43m=[39;49m[38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43moptions[49m[38;5;241;43m.[39;49m[43mget[49m[43m([49m[38;5;124;43m"[39;49m[38;5;124;43mmemory_map[39;49m[38;5;124;43m"[39;49m[43m,[49m[43m [49m[38;5;28;43;01mFalse[39;49;00m[43m)[49m[43m,[49m
-[1;32m   1886[0m [43m    [49m[43mis_text[49m[38;5;241;43m=[39;49m[43mis_text[49m[43m,[49m
-[1;32m   1887[0m [43m    [49m[43merrors[49m[38;5;241;43m=[39;49m[38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43moptions[49m[38;5;241;43m.[39;49m[43mget[49m[43m([49m[38;5;124;43m"[39;49m[38;5;124;43mencoding_errors[39;49m[38;5;124;43m"[39;49m[43m,[49m[43m [49m[38;5;124;43m"[39;49m[38;5;124;43mstrict[39;49m[38;5;124;43m"[39;49m[43m)[49m[43m,[49m
-[1;32m   1888[0m [43m    [49m[43mstorage_options[49m[38;5;241;43m=[39;49m[38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43moptions[49m[38;5;241;43m.[39;49m[43mget[49m[43m([49m[38;5;124;43m"[39;49m[38;5;124;43mstorage_options[39;49m[38;5;124;43m"[39;49m[43m,[49m[43m [49m[38;5;28;43;01mNone[39;49;00m[43m)[49m[43m,[49m
-[1;32m   1889[0m [43m[49m[43m)[49m
-[1;32m   1890[0m [38;5;28;01massert[39;00m [38;5;28mself[39m[38;5;241m.[39mhandles [38;5;129;01mis[39;00m [38;5;129;01mnot[39;00m [38;5;28;01mNone[39;00m
-[1;32m   1891[0m f [38;5;241m=[39m [38;5;28mself[39m[38;5;241m.[39mhandles[38;5;241m.[39mhandle
-
-File [0;32m~/opt/anaconda3/envs/jupyterbook/lib/python3.10/site-packages/pandas/io/common.py:873[0m, in [0;36mget_handle[0;34m(path_or_buf, mode, encoding, compression, memory_map, is_text, errors, storage_options)[0m
-[1;32m    868[0m [38;5;28;01melif[39;00m [38;5;28misinstance[39m(handle, [38;5;28mstr[39m):
-[1;32m    869[0m     [38;5;66;03m# Check whether the filename is to be opened in binary mode.[39;00m
-[1;32m    870[0m     [38;5;66;03m# Binary mode does not support 'encoding' and 'newline'.[39;00m
-[1;32m    871[0m     [38;5;28;01mif[39;00m ioargs[38;5;241m.[39mencoding [38;5;129;01mand[39;00m [38;5;124m"[39m[38;5;124mb[39m[38;5;124m"[39m [38;5;129;01mnot[39;00m [38;5;129;01min[39;00m ioargs[38;5;241m.[39mmode:
-[1;32m    872[0m         [38;5;66;03m# Encoding[39;00m
-[0;32m--> 873[0m         handle [38;5;241m=[39m [38;5;28;43mopen[39;49m[43m([49m
-[1;32m    874[0m [43m            [49m[43mhandle[49m[43m,[49m
-[1;32m    875[0m [43m            [49m[43mioargs[49m[38;5;241;43m.[39;49m[43mmode[49m[43m,[49m
-[1;32m    876[0m [43m            [49m[43mencoding[49m[38;5;241;43m=[39;49m[43mioargs[49m[38;5;241;43m.[39;49m[43mencoding[49m[43m,[49m
-[1;32m    877[0m [43m            [49m[43merrors[49m[38;5;241;43m=[39;49m[43merrors[49m[43m,[49m
-[1;32m    878[0m [43m            [49m[43mnewline[49m[38;5;241;43m=[39;49m[38;5;124;43m"[39;49m[38;5;124;43m"[39;49m[43m,[49m
-[1;32m    879[0m [43m        [49m[43m)[49m
-[1;32m    880[0m     [38;5;28;01melse[39;00m:
-[1;32m    881[0m         [38;5;66;03m# Binary mode[39;00m
-[1;32m    882[0m         handle [38;5;241m=[39m [38;5;28mopen[39m(handle, ioargs[38;5;241m.[39mmode)
-
-[0;31mFileNotFoundError[0m: [Errno 2] No such file or directory: 'W_PlotData.csv'
+[0;31mModuleNotFoundError[0m: No module named 'plotnine'
 
