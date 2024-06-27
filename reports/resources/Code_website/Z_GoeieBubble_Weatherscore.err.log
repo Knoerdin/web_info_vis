@@ -1,0 +1,137 @@
+Traceback (most recent call last):
+  File "C:\Users\gijsv\anaconda3\envs\jupyterbook\lib\site-packages\jupyter_cache\executors\utils.py", line 58, in single_nb_execution
+    executenb(
+  File "C:\Users\gijsv\anaconda3\envs\jupyterbook\lib\site-packages\nbclient\client.py", line 1314, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "C:\Users\gijsv\anaconda3\envs\jupyterbook\lib\site-packages\jupyter_core\utils\__init__.py", line 165, in wrapped
+    return loop.run_until_complete(inner)
+  File "C:\Users\gijsv\anaconda3\envs\jupyterbook\lib\asyncio\base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "C:\Users\gijsv\anaconda3\envs\jupyterbook\lib\site-packages\nbclient\client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "C:\Users\gijsv\anaconda3\envs\jupyterbook\lib\site-packages\nbclient\client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "C:\Users\gijsv\anaconda3\envs\jupyterbook\lib\site-packages\nbclient\client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+import pandas as pd
+import plotly.graph_objects as go
+from matplotlib import scale
+
+#Import two files, one with weather score for each state and 1 file with accidents per city with coördinates
+pf = pd.read_csv('W_PlotData.csv')
+df = pd.read_csv('A_AccidentsNewData.csv')
+
+#This code detemines the size of the circles
+groottes = [(0, 5), (5, 20), (20, 50), (50, 250), (250, 1000)]
+scale = 0.5
+
+#Dates we show
+dates = ['2016-01', '2016-04', '2016-07', '2016-10', '2017-01', '2017-04', '2017-07', '2017-10']
+fig = go.Figure()
+
+# Loop for the dates that we showcase
+for date in dates:
+    avg_score_per_state = pf[pf['Date'] == date].groupby('State')['score'].mean().reset_index()
+    # The base code for the color of the states that represent weather score
+    fig.add_trace(go.Choropleth(
+        visible=(date == dates[3]),
+        locations=avg_score_per_state['State'],
+        z=avg_score_per_state['score'],
+        locationmode='USA-states',
+        colorscale='PuRd',
+        zmin=0.7,
+        zmax=1.6,
+        colorbar=dict(
+            title='Average Weather Score for each state:',
+            x=1,
+            y=0.3,
+            len=0.6,
+            thickness=15,
+            
+        ),
+        showscale=True,
+        name=f'Weather Score {date}'
+    ))
+
+# The base code for the bubbles that represent cities
+for lim in groottes:
+    scatter_traces = [] 
+    for date in dates:
+        df_sub = df[(df['Accidents'] >= lim[0]) & (df['Accidents'] < lim[1]) & (df['Date'] == date)]
+        scatter_traces.append(go.Scattergeo(
+            visible=(date == dates[3]),
+            locationmode='USA-states',
+            lon=df_sub['lng'],
+            lat=df_sub['lat'],
+            text=df_sub['City'] + ': ' + df_sub['Accidents'].astype(str) + ' Accidents',
+            mode='markers',
+            marker=dict(
+                size=df_sub['Accidents'] * scale,
+                color='#3182bd',
+                line_color='rgb(40,40,40)',
+                line_width=0.5,
+                sizemode='area'
+            ),
+            name=f'{lim[0]} - {lim[1]} Accidents {date}'
+        ))
+    fig.add_traces(scatter_traces)
+
+#The code for the slider that selects the date
+steps = []
+for i, date in enumerate(dates):
+    step = dict(
+        method='update',
+        args=[{'visible': [date == d for d in dates]}],
+        label=date
+    )
+    steps.append(step)
+
+sliders = [dict(
+    active=3,
+    pad={'t': 20, 'l': 20, 'b':20},
+    steps=steps
+)]
+
+#Layout opnieuw ingedeeld
+fig.update_layout(
+    sliders=sliders,
+    title='Total of accidents for each city in the USA for 2016 and 2017',
+    title_x=0.5,
+    title_y=0.95,
+    showlegend=True,
+    legend_title_text='Amount of Accidents:',
+    geo=dict(scope='usa', landcolor='rgb(217, 217, 217)'),
+    geo_center=dict(lon=-105, lat=38),
+    margin=dict(l=0, r=0, t=50, b=0),
+    coloraxis_colorbar=dict(lenmode='fraction', len=0.5),
+    dragmode=False,
+)
+
+#Knoppen om in en uit te zoomen.
+zoom_buttons = [
+    dict(args=[{"geo.projection.scale": 1, "geo.center.lon": -105, "geo.center.lat": 38}], label='Back', method="relayout"),
+    dict(args=[{"geo.projection.scale": 1.5, "geo.center.lon": -117.5, "geo.center.lat": 44}], label='Zoom Left Top', method="relayout"),
+    dict(args=[{"geo.projection.scale": 1.5, "geo.center.lon": -117.5, "geo.center.lat": 31.5}], label='Zoom Left Bottom', method="relayout"),
+    dict(args=[{"geo.projection.scale": 1.5, "geo.center.lon": -92.5, "geo.center.lat": 44}], label='Zoom Right Top', method="relayout"),
+    dict(args=[{"geo.projection.scale": 1.5, "geo.center.lon": -92.5, "geo.center.lat": 31.5}], label='Zoom Right Bottom', method="relayout")
+]
+
+fig.update_layout(
+    updatemenus=[dict(type="buttons", showactive=False, buttons=zoom_buttons, x=0.2, y=0.85)],
+)
+
+fig.show(config={'scrollZoom': False})
+------------------
+
+
+[1;31m---------------------------------------------------------------------------[0m
+[1;31mModuleNotFoundError[0m                       Traceback (most recent call last)
+Cell [1;32mIn[1], line 1[0m
+[1;32m----> 1[0m [38;5;28;01mimport[39;00m [38;5;21;01mpandas[39;00m [38;5;28;01mas[39;00m [38;5;21;01mpd[39;00m
+[0;32m      2[0m [38;5;28;01mimport[39;00m [38;5;21;01mplotly[39;00m[38;5;21;01m.[39;00m[38;5;21;01mgraph_objects[39;00m [38;5;28;01mas[39;00m [38;5;21;01mgo[39;00m
+[0;32m      3[0m [38;5;28;01mfrom[39;00m [38;5;21;01mmatplotlib[39;00m [38;5;28;01mimport[39;00m scale
+
+[1;31mModuleNotFoundError[0m: No module named 'pandas'
+
