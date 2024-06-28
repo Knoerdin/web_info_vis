@@ -39,9 +39,10 @@ sphinx:
   config:
     html_context:
       default_mode: 'light'
-    html_static_path: 'static'
+    html_static_path: 'styling'
     html_css_files:
-      - css/style.css
+      - style.css
     html_js_files:
+      - light_mode.js
       # This is for plotly to work
       - https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js
