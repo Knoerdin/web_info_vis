@@ -1,7 +1,7 @@
 # Book settings
 # Learn more at https://jupyterbook.org/customize/config.html
 
-title: Analysis of Weather Conditions and their Relation to Traffic Accidents in the US # Change this to your book title.
+title: Weather data and Traffic Accidents # Change this to your book title.
 author: InfoVis Group I1 # Change this to your name (or your team/organization name).
 
 # Force re-execution of notebooks on each build.
