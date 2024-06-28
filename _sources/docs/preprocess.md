@@ -5,3 +5,121 @@ For this data story only the USA will be researched, so for this dataset we remo
 
 The second dataset used in this data story is Historical Hourly Weather Data 2012-2017, also found on Kaggle. It contains the data of the weather in various US states as well as some canadian and israeli cities. The records are measured by the hour and records variables such as temparature, humidity, air pressure and wind speed. There are roughly 45300 records in the database.
 The only country that will be researched is the US, so all the records of the other countries have been removed from the database. The variables of the database are all in a different csv file which made it more difficult to find correlation between the databases. To overcome this obstacle all the csv files were melted and filtered on year, after the filtering the database was merged to one csv file. 
+
+## Variable descriptions
+
+|                        | Discrete | Continuous | Ratio | Ordinal | Nominal | Interval |
+|------------------------|----------|------------|-------|---------|---------|----------|
+| Humidity               |          | X          | X     |         |         |          |
+| Wind Speed             | X        |            |       | X       |         |          |
+| Temparature            |          | X          | X     |         |         |          |
+| State                  | X        |            |       |         | X       |          |
+| Weather Score          |          | X          | X     |         |         |          |
+| Date                   |          |            |       | X       |         | X        |
+| Severity               | X        |            |       | X       |         |          |
+| All road variables*    | X        |            |       |         | X       |          |
+| All traffic violations** | X        |            |       |         | X       |          |
+
+\* This variable group includes: Amenity, Bump, Crossing, Give_Way, Junction, No_Exit, Railway, Roundabout, Station, Stop, Traffic_Calming, Traffic_Signal, Turning_Loop\\
+\** This variable group includes: Belts, Personal Injury, Fatal,Alcohol, Contributed To Accident
+
+## Code for perprocessing the main dataset
+```python
+# Imports
+import pandas as pd
+
+# Read all files in this cell
+temp_raw = pd.read_csv('../../resources/dataset_weather/us_temperature.csv')
+humidity_raw = pd.read_csv('../../resources/dataset_weather/us_humidity.csv')
+wind_speed_raw = pd.read_csv('../../resources/dataset_weather/us_wind_speed.csv')
+accidents_raw = pd.read_csv('../../resources/us_accidents.csv')
+
+accidents_raw['Start_Time'] = pd.to_datetime(accidents_raw['Start_Time'])
+accidents_raw['Date'] = accidents_raw['Start_Time'].dt.date
+accidents = accidents_raw.drop(columns=['Start_Time','End_Time', 'Distance(mi)'])
+accidents = accidents.sort_values('Date').reset_index(drop=True)
+
+# Convert dates to DateTime format
+temp_raw['datetime'] = pd.to_datetime(temp_raw['datetime'])
+humidity_raw['datetime'] = pd.to_datetime(humidity_raw['datetime'])
+wind_speed_raw['datetime'] = pd.to_datetime(wind_speed_raw['datetime'])
+
+# Filter the dates using .loc()
+temp = temp_raw.loc[(temp_raw['datetime'] >= '2016-01-01') & (temp_raw['datetime'] < '2018-01-01')]
+humidity = humidity_raw.loc[(humidity_raw['datetime'] >= '2016-01-01') & (humidity_raw['datetime'] < '2018-01-01')]
+wind_speed = wind_speed_raw.loc[(wind_speed_raw['datetime'] >= '2016-01-01') & (wind_speed_raw['datetime'] < '2018-01-01')]
+
+# Reset indexes
+temp = temp.reset_index(drop=True)
+humidity = humidity.reset_index(drop=True)
+wind_speed = wind_speed.reset_index(drop=True)
+
+# Melting for all the weather dataframes
+temp_melted = pd.melt(temp, id_vars=['datetime'], var_name='State', value_name='Temperature')
+humidity_melted = pd.melt(humidity, id_vars=['datetime'], var_name='State', value_name='Humidity')
+wind_speed_melted = pd.melt(wind_speed, id_vars=['datetime'], var_name='State', value_name='Wind_Speed')
+
+# Converting beaufort windspeed to km/h
+beaufort_scale = {
+    0: (0, 1),
+    1: (1, 5),
+    2: (6, 11),
+    3: (12, 19),
+    4: (20, 28),
+    5: (29, 38),
+    6: (39, 49),
+    7: (50, 61),
+    8: (62, 74),
+    9: (75, 88),
+    10: (89, 102),
+    11: (103, 117),
+    12: (118, 133),
+    13: (134, 149),
+    14: (150, 166),
+    15: (167, 183),
+    16: (184, 201),
+    17: (202, 220)
+}
+
+# Calculate the mean wind speed for each Beaufort scale number
+beaufort_mean_speeds = {b: (rng[0] + rng[1]) / 2 for b, rng in beaufort_scale.items()}
+
+# Map the Beaufort scale values to mean km/h values
+wind_speed_melted['Wind_Speed_km'] = wind_speed_melted['Wind_Speed'].map(beaufort_mean_speeds)
+wind_speed_melted = wind_speed_melted.drop(columns=['Wind_Speed'])
+
+# Merge all three weather dataframes with inner join
+weather = pd.merge(temp_melted, humidity_melted,on=['datetime','State'], how='inner')
+weather = pd.merge(weather, wind_speed_melted,on=['datetime','State'], how='inner')
+
+# Convert datetime to date
+weather['Date'] = weather['datetime'].dt.date
+weather = weather.drop(columns=['datetime'])
+
+# Group on day and state
+weather = weather.groupby(['Date', 'State']).mean()
+
+# Merge the weather and accident dataframes
+weather_accidents = pd.merge(weather, accidents, left_on=['Date', 'State'], right_on=['Date', 'City'], how='inner')
+
+def norm(data):
+    min_val = min(data)
+    max_val = max(data)
+    normalized_data = ((data - min_val) / (max_val - min_val))
+    return normalized_data
+def parabool(data):
+    min_val = min(data)
+    max_val = max(data)
+    avg = (min_val + max_val)/2
+    out_data = abs(data - avg)
+    return norm(out_data)
+
+weather_accidents['Wind_Speed_km_norm'] = norm(weather_accidents['Wind_Speed_km'])
+weather_accidents['Temp_norm'] = parabool(weather_accidents['Temperature'])
+weather_accidents['Humid_norm'] = norm(weather_accidents['Humidity'])
+
+weather_accidents['weather_score'] = weather_accidents['Wind_Speed_km_norm'] + weather_accidents['Humid_norm'] + weather_accidents['Temp_norm']
+display(weather_accidents)
+
+weather_accidents.to_csv('../../resources/dataset_weather/weather_accidents.csv',index=False)
+```

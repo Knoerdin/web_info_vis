@@ -351,7 +351,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -367,6 +369,15 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variable-descriptions">Variable descriptions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#code-for-perprocessing-the-main-dataset">Code for perprocessing the main dataset</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -382,6 +393,200 @@ document.write(`
 For this data story only the USA will be researched, so for this dataset we removed all states and cities that were not in the USA. As for the variables, all variables that were not used such as ID, Source, Timezone and so on. To find overlap between the this database and the database mentioned in the next paragraph, only the years 2016 and 2017 were used as these are the overlapping years between the databases.</p>
 <p>The second dataset used in this data story is Historical Hourly Weather Data 2012-2017, also found on Kaggle. It contains the data of the weather in various US states as well as some canadian and israeli cities. The records are measured by the hour and records variables such as temparature, humidity, air pressure and wind speed. There are roughly 45300 records in the database.
 The only country that will be researched is the US, so all the records of the other countries have been removed from the database. The variables of the database are all in a different csv file which made it more difficult to find correlation between the databases. To overcome this obstacle all the csv files were melted and filtered on year, after the filtering the database was merged to one csv file.</p>
+<section id="variable-descriptions">
+<h2>Variable descriptions<a class="headerlink" href="#variable-descriptions" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>Discrete</p></th>
+<th class="head"><p>Continuous</p></th>
+<th class="head"><p>Ratio</p></th>
+<th class="head"><p>Ordinal</p></th>
+<th class="head"><p>Nominal</p></th>
+<th class="head"><p>Interval</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Humidity</p></td>
+<td><p></p></td>
+<td><p>X</p></td>
+<td><p>X</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>Wind Speed</p></td>
+<td><p>X</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>X</p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>Temparature</p></td>
+<td><p></p></td>
+<td><p>X</p></td>
+<td><p>X</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>State</p></td>
+<td><p>X</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>X</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>Weather Score</p></td>
+<td><p></p></td>
+<td><p>X</p></td>
+<td><p>X</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>Date</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>X</p></td>
+<td><p></p></td>
+<td><p>X</p></td>
+</tr>
+<tr class="row-even"><td><p>Severity</p></td>
+<td><p>X</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>X</p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>All road variables*</p></td>
+<td><p>X</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>X</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>All traffic violations**</p></td>
+<td><p>X</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>X</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>* This variable group includes: Amenity, Bump, Crossing, Give_Way, Junction, No_Exit, Railway, Roundabout, Station, Stop, Traffic_Calming, Traffic_Signal, Turning_Loop\
+** This variable group includes: Belts, Personal Injury, Fatal,Alcohol, Contributed To Accident</p>
+</section>
+<section id="code-for-perprocessing-the-main-dataset">
+<h2>Code for perprocessing the main dataset<a class="headerlink" href="#code-for-perprocessing-the-main-dataset" title="Link to this heading">#</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Imports</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="c1"># Read all files in this cell</span>
+<span class="n">temp_raw</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../../resources/dataset_weather/us_temperature.csv&#39;</span><span class="p">)</span>
+<span class="n">humidity_raw</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../../resources/dataset_weather/us_humidity.csv&#39;</span><span class="p">)</span>
+<span class="n">wind_speed_raw</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../../resources/dataset_weather/us_wind_speed.csv&#39;</span><span class="p">)</span>
+<span class="n">accidents_raw</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../../resources/us_accidents.csv&#39;</span><span class="p">)</span>
+
+<span class="n">accidents_raw</span><span class="p">[</span><span class="s1">&#39;Start_Time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">accidents_raw</span><span class="p">[</span><span class="s1">&#39;Start_Time&#39;</span><span class="p">])</span>
+<span class="n">accidents_raw</span><span class="p">[</span><span class="s1">&#39;Date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">accidents_raw</span><span class="p">[</span><span class="s1">&#39;Start_Time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">date</span>
+<span class="n">accidents</span> <span class="o">=</span> <span class="n">accidents_raw</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Start_Time&#39;</span><span class="p">,</span><span class="s1">&#39;End_Time&#39;</span><span class="p">,</span> <span class="s1">&#39;Distance(mi)&#39;</span><span class="p">])</span>
+<span class="n">accidents</span> <span class="o">=</span> <span class="n">accidents</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;Date&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Convert dates to DateTime format</span>
+<span class="n">temp_raw</span><span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">temp_raw</span><span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">])</span>
+<span class="n">humidity_raw</span><span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">humidity_raw</span><span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">])</span>
+<span class="n">wind_speed_raw</span><span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">wind_speed_raw</span><span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">])</span>
+
+<span class="c1"># Filter the dates using .loc()</span>
+<span class="n">temp</span> <span class="o">=</span> <span class="n">temp_raw</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">temp_raw</span><span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="s1">&#39;2016-01-01&#39;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">temp_raw</span><span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="s1">&#39;2018-01-01&#39;</span><span class="p">)]</span>
+<span class="n">humidity</span> <span class="o">=</span> <span class="n">humidity_raw</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">humidity_raw</span><span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="s1">&#39;2016-01-01&#39;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">humidity_raw</span><span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="s1">&#39;2018-01-01&#39;</span><span class="p">)]</span>
+<span class="n">wind_speed</span> <span class="o">=</span> <span class="n">wind_speed_raw</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">wind_speed_raw</span><span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="s1">&#39;2016-01-01&#39;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">wind_speed_raw</span><span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="s1">&#39;2018-01-01&#39;</span><span class="p">)]</span>
+
+<span class="c1"># Reset indexes</span>
+<span class="n">temp</span> <span class="o">=</span> <span class="n">temp</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">humidity</span> <span class="o">=</span> <span class="n">humidity</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">wind_speed</span> <span class="o">=</span> <span class="n">wind_speed</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Melting for all the weather dataframes</span>
+<span class="n">temp_melted</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span> <span class="n">id_vars</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">],</span> <span class="n">var_name</span><span class="o">=</span><span class="s1">&#39;State&#39;</span><span class="p">,</span> <span class="n">value_name</span><span class="o">=</span><span class="s1">&#39;Temperature&#39;</span><span class="p">)</span>
+<span class="n">humidity_melted</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">humidity</span><span class="p">,</span> <span class="n">id_vars</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">],</span> <span class="n">var_name</span><span class="o">=</span><span class="s1">&#39;State&#39;</span><span class="p">,</span> <span class="n">value_name</span><span class="o">=</span><span class="s1">&#39;Humidity&#39;</span><span class="p">)</span>
+<span class="n">wind_speed_melted</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">wind_speed</span><span class="p">,</span> <span class="n">id_vars</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">],</span> <span class="n">var_name</span><span class="o">=</span><span class="s1">&#39;State&#39;</span><span class="p">,</span> <span class="n">value_name</span><span class="o">=</span><span class="s1">&#39;Wind_Speed&#39;</span><span class="p">)</span>
+
+<span class="c1"># Converting beaufort windspeed to km/h</span>
+<span class="n">beaufort_scale</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">0</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="mi">1</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+    <span class="mi">2</span><span class="p">:</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span>
+    <span class="mi">3</span><span class="p">:</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">19</span><span class="p">),</span>
+    <span class="mi">4</span><span class="p">:</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">28</span><span class="p">),</span>
+    <span class="mi">5</span><span class="p">:</span> <span class="p">(</span><span class="mi">29</span><span class="p">,</span> <span class="mi">38</span><span class="p">),</span>
+    <span class="mi">6</span><span class="p">:</span> <span class="p">(</span><span class="mi">39</span><span class="p">,</span> <span class="mi">49</span><span class="p">),</span>
+    <span class="mi">7</span><span class="p">:</span> <span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">61</span><span class="p">),</span>
+    <span class="mi">8</span><span class="p">:</span> <span class="p">(</span><span class="mi">62</span><span class="p">,</span> <span class="mi">74</span><span class="p">),</span>
+    <span class="mi">9</span><span class="p">:</span> <span class="p">(</span><span class="mi">75</span><span class="p">,</span> <span class="mi">88</span><span class="p">),</span>
+    <span class="mi">10</span><span class="p">:</span> <span class="p">(</span><span class="mi">89</span><span class="p">,</span> <span class="mi">102</span><span class="p">),</span>
+    <span class="mi">11</span><span class="p">:</span> <span class="p">(</span><span class="mi">103</span><span class="p">,</span> <span class="mi">117</span><span class="p">),</span>
+    <span class="mi">12</span><span class="p">:</span> <span class="p">(</span><span class="mi">118</span><span class="p">,</span> <span class="mi">133</span><span class="p">),</span>
+    <span class="mi">13</span><span class="p">:</span> <span class="p">(</span><span class="mi">134</span><span class="p">,</span> <span class="mi">149</span><span class="p">),</span>
+    <span class="mi">14</span><span class="p">:</span> <span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">166</span><span class="p">),</span>
+    <span class="mi">15</span><span class="p">:</span> <span class="p">(</span><span class="mi">167</span><span class="p">,</span> <span class="mi">183</span><span class="p">),</span>
+    <span class="mi">16</span><span class="p">:</span> <span class="p">(</span><span class="mi">184</span><span class="p">,</span> <span class="mi">201</span><span class="p">),</span>
+    <span class="mi">17</span><span class="p">:</span> <span class="p">(</span><span class="mi">202</span><span class="p">,</span> <span class="mi">220</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1"># Calculate the mean wind speed for each Beaufort scale number</span>
+<span class="n">beaufort_mean_speeds</span> <span class="o">=</span> <span class="p">{</span><span class="n">b</span><span class="p">:</span> <span class="p">(</span><span class="n">rng</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">rng</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">b</span><span class="p">,</span> <span class="n">rng</span> <span class="ow">in</span> <span class="n">beaufort_scale</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+<span class="c1"># Map the Beaufort scale values to mean km/h values</span>
+<span class="n">wind_speed_melted</span><span class="p">[</span><span class="s1">&#39;Wind_Speed_km&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">wind_speed_melted</span><span class="p">[</span><span class="s1">&#39;Wind_Speed&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">beaufort_mean_speeds</span><span class="p">)</span>
+<span class="n">wind_speed_melted</span> <span class="o">=</span> <span class="n">wind_speed_melted</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Wind_Speed&#39;</span><span class="p">])</span>
+
+<span class="c1"># Merge all three weather dataframes with inner join</span>
+<span class="n">weather</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">temp_melted</span><span class="p">,</span> <span class="n">humidity_melted</span><span class="p">,</span><span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">,</span><span class="s1">&#39;State&#39;</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;inner&#39;</span><span class="p">)</span>
+<span class="n">weather</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">weather</span><span class="p">,</span> <span class="n">wind_speed_melted</span><span class="p">,</span><span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">,</span><span class="s1">&#39;State&#39;</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;inner&#39;</span><span class="p">)</span>
+
+<span class="c1"># Convert datetime to date</span>
+<span class="n">weather</span><span class="p">[</span><span class="s1">&#39;Date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">weather</span><span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">date</span>
+<span class="n">weather</span> <span class="o">=</span> <span class="n">weather</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">])</span>
+
+<span class="c1"># Group on day and state</span>
+<span class="n">weather</span> <span class="o">=</span> <span class="n">weather</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;Date&#39;</span><span class="p">,</span> <span class="s1">&#39;State&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="c1"># Merge the weather and accident dataframes</span>
+<span class="n">weather_accidents</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">weather</span><span class="p">,</span> <span class="n">accidents</span><span class="p">,</span> <span class="n">left_on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Date&#39;</span><span class="p">,</span> <span class="s1">&#39;State&#39;</span><span class="p">],</span> <span class="n">right_on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Date&#39;</span><span class="p">,</span> <span class="s1">&#39;City&#39;</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;inner&#39;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">norm</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="n">min_val</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">max_val</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">normalized_data</span> <span class="o">=</span> <span class="p">((</span><span class="n">data</span> <span class="o">-</span> <span class="n">min_val</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">max_val</span> <span class="o">-</span> <span class="n">min_val</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">normalized_data</span>
+<span class="k">def</span> <span class="nf">parabool</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="n">min_val</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">max_val</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">avg</span> <span class="o">=</span> <span class="p">(</span><span class="n">min_val</span> <span class="o">+</span> <span class="n">max_val</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">out_data</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">data</span> <span class="o">-</span> <span class="n">avg</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">norm</span><span class="p">(</span><span class="n">out_data</span><span class="p">)</span>
+
+<span class="n">weather_accidents</span><span class="p">[</span><span class="s1">&#39;Wind_Speed_km_norm&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">weather_accidents</span><span class="p">[</span><span class="s1">&#39;Wind_Speed_km&#39;</span><span class="p">])</span>
+<span class="n">weather_accidents</span><span class="p">[</span><span class="s1">&#39;Temp_norm&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">parabool</span><span class="p">(</span><span class="n">weather_accidents</span><span class="p">[</span><span class="s1">&#39;Temperature&#39;</span><span class="p">])</span>
+<span class="n">weather_accidents</span><span class="p">[</span><span class="s1">&#39;Humid_norm&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">weather_accidents</span><span class="p">[</span><span class="s1">&#39;Humidity&#39;</span><span class="p">])</span>
+
+<span class="n">weather_accidents</span><span class="p">[</span><span class="s1">&#39;weather_score&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">weather_accidents</span><span class="p">[</span><span class="s1">&#39;Wind_Speed_km_norm&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">weather_accidents</span><span class="p">[</span><span class="s1">&#39;Humid_norm&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">weather_accidents</span><span class="p">[</span><span class="s1">&#39;Temp_norm&#39;</span><span class="p">]</span>
+<span class="n">display</span><span class="p">(</span><span class="n">weather_accidents</span><span class="p">)</span>
+
+<span class="n">weather_accidents</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;../../resources/dataset_weather/weather_accidents.csv&#39;</span><span class="p">,</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -438,6 +643,22 @@ The only country that will be researched is the US, so all the records of the ot
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variable-descriptions">Variable descriptions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#code-for-perprocessing-the-main-dataset">Code for perprocessing the main dataset</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
